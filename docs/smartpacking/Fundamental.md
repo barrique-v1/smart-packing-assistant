@@ -203,7 +203,7 @@ API Gateway:
   - Spring Boot 3.5.6
   - JVM 21
 
-  Dependencies:
+    Dependencies:
   - Spring Web
   - Spring Data JPA
   - PostgreSQL Driver
@@ -218,6 +218,13 @@ AI Worker:
   - Gradle
   - Spring Boot 3.5.6
   - JVM 21
+    
+    Dependencies:
+    - Spring Web
+    - Validation
+    - Spring Boot DevTools
+    - Spring Configuration Processor
+    - Spring Boot Actuator
 
 Frontend:
   - React 18.3.1
