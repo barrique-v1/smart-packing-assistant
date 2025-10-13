@@ -102,7 +102,7 @@ smart-packing-assistant/
 ├── settings.gradle.kts              # Multi-Project Build
 │
 ├── services/
-│   ├── shared/                      # Gemeinsames Modul (NEU!)
+│   ├── shared/                      # Gemeinsames Modul
 │   │   ├── build.gradle.kts
 │   │   └── src/
 │   │       └── main/
