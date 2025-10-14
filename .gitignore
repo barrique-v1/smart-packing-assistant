@@ -36,6 +36,7 @@ pip-delete-this-directory.txt
 # Build outputs
 dist/
 build/
+.gradle/
 *.egg-info/
 .eggs/
 target/

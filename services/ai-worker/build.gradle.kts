@@ -1,12 +1,10 @@
 plugins {
-	kotlin("jvm") version "1.9.25"
-	kotlin("plugin.spring") version "1.9.25"
-	id("org.springframework.boot") version "3.5.6"
-	id("io.spring.dependency-management") version "1.1.7"
+	kotlin("jvm")
+	kotlin("plugin.spring")
+	id("org.springframework.boot")
+	id("io.spring.dependency-management")
 }
 
-group = "com.smartpacking"
-version = "0.0.1-SNAPSHOT"
 description = "AI Worker for Smart Packing Assistant"
 
 java {
@@ -26,6 +24,9 @@ repositories {
 }
 
 dependencies {
+	// Shared module
+	implementation(project(":services:shared"))
+
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.boot:spring-boot-starter-web")
