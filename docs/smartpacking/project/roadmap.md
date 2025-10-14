@@ -15,20 +15,20 @@
 
 ---
 
-## Phase 2: Shared Module
+## Phase 2: Shared Module ✅
 
-- [ ] Shared Module Ordnerstruktur erstellen
-- [ ] `build.gradle.kts` für Shared Module konfigurieren
-- [ ] Enums definieren (TravelType, Season)
-- [ ] DTOs erstellen:
-    - [ ] PackingRequest.kt
-    - [ ] PackingResponse.kt
-    - [ ] PackingItem.kt
-    - [ ] WeatherInfo.kt
-- [ ] Root `settings.gradle.kts` anpassen (alle 3 Module einbinden)
-- [ ] Shared Module in API Gateway als Dependency einbinden
-- [ ] Shared Module in AI Worker als Dependency einbinden
-- [ ] Shared Module Build testen
+- [x] Shared Module Ordnerstruktur erstellen
+- [x] `build.gradle.kts` für Shared Module konfigurieren
+- [x] Enums definieren (TravelType, Season)
+- [x] DTOs erstellen:
+    - [x] PackingRequest.kt
+    - [x] PackingResponse.kt
+    - [x] PackingItem.kt
+    - [x] WeatherInfo.kt (in model/ folder)
+- [x] Root `settings.gradle.kts` anpassen (alle 3 Module einbinden)
+- [x] Shared Module in API Gateway als Dependency einbinden
+- [x] Shared Module in AI Worker als Dependency einbinden
+- [x] Shared Module Build testen (Kotlin version aligned to 1.9.25)
 
 ---
 

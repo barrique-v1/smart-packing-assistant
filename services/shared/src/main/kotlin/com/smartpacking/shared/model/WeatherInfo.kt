@@ -19,4 +19,3 @@ data class WeatherInfo(
     @JsonProperty("precipitation_chance")
     val precipitationChance: Int? = null
 )
-how
