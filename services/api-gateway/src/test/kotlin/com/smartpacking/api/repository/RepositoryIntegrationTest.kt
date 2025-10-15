@@ -71,7 +71,7 @@ class RepositoryIntegrationTest {
             season = "SPRING",
             itemsJson = """{"categories": {"clothing": []}}""",
             weatherInfo = """{"temperature_range": {"min": 12, "max": 20}}""",
-            cultureTips = arrayOf("Tip 1", "Tip 2")
+            cultureTips = listOf("Tip 1", "Tip 2")
         )
         val savedPackingList = packingListRepository.save(packingList)
 

@@ -32,17 +32,23 @@
 
 ---
 
-## Phase 3: API Gateway - Database Layer
+## Phase 3: API Gateway - Database Layer ✅
 
-- [ ] Flyway Migration Setup in `build.gradle.kts`
-- [ ] Erste Migration erstellen (V1__initial_schema.sql)
-- [ ] JPA Entities erstellen:
-    - [ ] PackingList.kt (entspricht DB-Tabelle)
-    - [ ] Annotations konfigurieren (@Entity, @Table, @Id, etc.)
-- [ ] Repository Interface erstellen (PackingListRepository.kt)
-- [ ] `application.yml` Database-Konfiguration prüfen
-- [ ] Flyway Migration ausführen
-- [ ] Repository mit Test verifizieren
+- [x] Flyway Migration Setup in `build.gradle.kts`
+- [x] Erste Migration erstellen (V1__initial_schema.sql)
+- [x] JPA Entities erstellen:
+    - [x] Session.kt (Session management)
+    - [x] PackingList.kt (Main entity with JSONB and TEXT[] support)
+    - [x] ChatMessage.kt (Chat history)
+    - [x] Annotations konfigurieren (@Entity, @Table, @Id, etc.)
+- [x] Repository Interfaces erstellen:
+    - [x] SessionRepository.kt (with custom queries)
+    - [x] PackingListRepository.kt (with search methods)
+    - [x] ChatMessageRepository.kt (for chat history)
+- [x] `application.properties` Database-Konfiguration (PostgreSQL credentials, JPA, Flyway)
+- [x] Flyway Migration bereitgestellt (disabled for local, enabled for Docker/K8s)
+- [x] Repository mit Test verifizieren (Unit + Integration tests)
+- [x] Application erfolgreich gestartet (Port 8080, Health check: UP)
 
 ---
 

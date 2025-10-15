@@ -44,8 +44,9 @@ data class PackingList(
     @Column(name = "weather_info", columnDefinition = "jsonb")
     val weatherInfo: String? = null,
 
+    @JdbcTypeCode(SqlTypes.ARRAY)
     @Column(name = "culture_tips", columnDefinition = "TEXT[]")
-    val cultureTips: Array<String>? = null,
+    val cultureTips: List<String>? = null,
 
     @Column(name = "special_notes", columnDefinition = "TEXT")
     val specialNotes: String? = null,
