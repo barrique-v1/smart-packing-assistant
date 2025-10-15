@@ -198,7 +198,7 @@ smart-packing-assistant/
 
 ```markdown
 API Gateway:
-  - Kotlin 2.2.x
+  - Kotlin 1.9.25
   - Gradle
   - Spring Boot 3.5.6
   - JVM 21
@@ -214,7 +214,7 @@ API Gateway:
   - Spring Boot Actuator
   
 AI Worker:
-  - Kotlin 2.2.x
+  - Kotlin 1.9.25
   - Gradle
   - Spring Boot 3.5.6
   - JVM 21
