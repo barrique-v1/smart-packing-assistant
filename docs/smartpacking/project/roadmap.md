@@ -90,24 +90,89 @@
 
 ---
 
-## Phase 6: AI Worker - OpenAI Integration
+## Phase 6A: AI Worker - Spring AI Setup & Configuration ✅
 
-- [ ] OpenAI API Key vom Dozenten besorgen
-- [ ] API Key in `application.yml` als Environment Variable konfigurieren
-- [ ] OpenAiConfig.kt erstellen
-- [ ] PromptService.kt erstellen (Prompt Engineering)
-- [ ] System Prompt definieren
-- [ ] User Prompt Template erstellen
-- [ ] AiService.kt implementieren:
-    - [ ] OpenAI Client initialisieren
-    - [ ] ChatRequest erstellen
-    - [ ] Response parsing implementieren
-    - [ ] JSON Validation einbauen
-    - [ ] Halluzination-Vermeidung (Temperature 0.3)
-    - [ ] Fallback-Logik bei Fehlern
+- [x] OpenAI API Key vom Dozenten besorgen (configured in .env file via spring-dotenv)
+- [x] **Migrated to Spring AI** from openai-gpt3-java for better Spring Boot integration
+- [x] Spring AI Dependency in `build.gradle.kts` hinzufügen (spring-ai-openai-spring-boot-starter:1.0.0-M4)
+- [x] Spring Milestone Repository hinzugefügt für Spring AI access
+- [x] spring-dotenv Dependency hinzufügen (me.paulschwarz:spring-dotenv:4.0.0)
+- [x] API Key in `application.properties` als Environment Variable konfigurieren (spring.ai.openai.api-key)
+- [x] .env file loaded with spring-dotenv library (symlink created in ai-worker directory)
+- [x] OpenAiConfig.kt refactored for Spring AI (ChatClient bean, auto-configuration)
+- [x] Basic Connection Test implementieren mit ChatClient (OpenAiHealthService.kt)
+- [x] Configuration testen (API Key validation)
+- [x] Verify: Config loads successfully, ChatClient initialized
+- [x] Build erfolgreich (./gradlew build)
+- [x] Service gestartet (Port 8081, Health: UP)
+- [x] OpenAI connection verified with test API call (response: "OK")
+
+---
+
+## Phase 6B: AI Worker - Prompt Engineering
+
+- [ ] PromptService.kt erstellen
+- [ ] System Prompt definieren:
+    - [ ] Anti-Hallucination Guidelines
+    - [ ] Output Format Specification (JSON)
+    - [ ] Reliability over Creativity
+- [ ] User Prompt Template erstellen:
+    - [ ] Destination Parameter
+    - [ ] Duration Parameter
+    - [ ] Season Parameter
+    - [ ] Travel Type Parameter
+- [ ] Prompt Builder Method implementieren
+- [ ] Temperature 0.3 konfigurieren
+- [ ] Test Prompts mit Sample-Inputs
+- [ ] Verify: Prompts generate correctly with all context
+
+---
+
+## Phase 6C: AI Worker - AI Service Core Implementation
+
+- [ ] AiService.kt erstellen
+- [ ] OpenAI Client initialisieren (inject from config)
+- [ ] ChatRequest erstellen (integrate PromptService)
+- [ ] Basic API Call implementieren
+- [ ] Raw Response Logging hinzufügen
+- [ ] Test mit einfachen Requests
+- [ ] Verify: API calls work, responses received
+
+---
+
+## Phase 6D: AI Worker - Response Processing & Error Handling
+
+- [ ] Response Parsing implementieren (JSON extraction from AI response)
+- [ ] JSON Validation einbauen (schema validation)
+- [ ] Data Model für AI Response erstellen
+- [ ] Halluzination-Vermeidung verifizieren
+- [ ] Fallback-Logik bei Fehlern implementieren:
+    - [ ] API Timeout Handling
+    - [ ] Invalid JSON Handling
+    - [ ] Rate Limit Handling
+    - [ ] Fallback to Dummy Data wenn nötig
+- [ ] Exception Handling (comprehensive error scenarios)
+- [ ] Integration mit WeatherService
+- [ ] Integration mit CultureService
+- [ ] Verify: Responses parsed correctly, all errors handled gracefully
+
+---
+
+## Phase 6E: AI Worker - REST API & Testing
+
 - [ ] AiController.kt erstellen
 - [ ] POST /api/ai/generate Endpoint implementieren
-- [ ] AI Worker lokal testen
+- [ ] Request DTO validieren (@Valid annotations)
+- [ ] Response DTO formatieren
+- [ ] Error Responses formatieren (proper HTTP status codes)
+- [ ] Performance Logging hinzufügen (generation time tracking)
+- [ ] AI Worker lokal testen (Port 8081)
+- [ ] End-to-End Test mit curl/Postman:
+    - [ ] Test valid request (Iceland, 5 days, WINTER, VACATION)
+    - [ ] Test invalid destination
+    - [ ] Test API error scenarios
+- [ ] Documentation der API Endpoints
+- [ ] Verify: Endpoint works end-to-end, returns valid packing lists
 
 ---
 
