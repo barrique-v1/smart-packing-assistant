@@ -1,0 +1,53 @@
+{
+  "Dubai": [
+    {
+      "category": "DRESS_CODE",
+      "tip": "Schultern und Knie sollten bedeckt sein, besonders in öffentlichen Bereichen",
+      "importance": "HIGH"
+    },
+    {
+      "category": "CUSTOMS",
+      "tip": "Alkohol ist nur in lizenzierten Hotels erlaubt",
+      "importance": "HIGH"
+    },
+    {
+      "category": "CUSTOMS",
+      "tip": "Öffentliche Zuneigungsbekundungen sind nicht erlaubt",
+      "importance": "MEDIUM"
+    }
+  ],
+  "Iceland": [
+    {
+      "category": "SAFETY",
+      "tip": "Wetter kann sich schnell ändern - immer mehrere Schichten einpacken",
+      "importance": "HIGH"
+    },
+    {
+      "category": "CUSTOMS",
+      "tip": "Schuhe vor dem Betreten von Häusern ausziehen",
+      "importance": "MEDIUM"
+    },
+    {
+      "category": "LANGUAGE",
+      "tip": "Englisch wird fast überall gesprochen",
+      "importance": "LOW"
+    }
+  ],
+  "Tokyo": [
+    {
+      "category": "CUSTOMS",
+      "tip": "Trinkgeld ist unüblich und kann als beleidigend empfunden werden",
+      "importance": "HIGH"
+    },
+    {
+      "category": "DRESS_CODE",
+      "tip": "Saubere Schuhe sind wichtig - oft werden Schuhe ausgezogen",
+      "importance": "MEDIUM"
+    },
+    {
+      "category": "CUSTOMS",
+      "tip": "Leise sprechen in öffentlichen Verkehrsmitteln",
+      "importance": "MEDIUM"
+    }
+  ]
+}

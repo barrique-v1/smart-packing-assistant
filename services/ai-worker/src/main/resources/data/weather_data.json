@@ -1,0 +1,92 @@
+{
+  "Iceland": {
+    "SPRING": {
+      "temp_min": 2,
+      "temp_max": 8,
+      "conditions": "Cloudy with frequent rain and wind",
+      "humidity": "75%",
+      "precipitation_chance": 70
+    },
+    "SUMMER": {
+      "temp_min": 10,
+      "temp_max": 15,
+      "conditions": "Mild with occasional rain",
+      "humidity": "65%",
+      "precipitation_chance": 50
+    },
+    "FALL": {
+      "temp_min": 3,
+      "temp_max": 9,
+      "conditions": "Windy with rain",
+      "humidity": "70%",
+      "precipitation_chance": 65
+    },
+    "WINTER": {
+      "temp_min": -3,
+      "temp_max": 3,
+      "conditions": "Cold with snow and ice",
+      "humidity": "80%",
+      "precipitation_chance": 80
+    }
+  },
+  "Dubai": {
+    "SPRING": {
+      "temp_min": 22,
+      "temp_max": 35,
+      "conditions": "Hot and dry",
+      "humidity": "45%",
+      "precipitation_chance": 5
+    },
+    "SUMMER": {
+      "temp_min": 30,
+      "temp_max": 45,
+      "conditions": "Extremely hot",
+      "humidity": "50%",
+      "precipitation_chance": 2
+    },
+    "FALL": {
+      "temp_min": 25,
+      "temp_max": 38,
+      "conditions": "Hot and sunny",
+      "humidity": "48%",
+      "precipitation_chance": 3
+    },
+    "WINTER": {
+      "temp_min": 15,
+      "temp_max": 28,
+      "conditions": "Warm and pleasant",
+      "humidity": "55%",
+      "precipitation_chance": 10
+    }
+  },
+  "Tokyo": {
+    "SPRING": {
+      "temp_min": 12,
+      "temp_max": 20,
+      "conditions": "Mild with cherry blossoms",
+      "humidity": "60%",
+      "precipitation_chance": 40
+    },
+    "SUMMER": {
+      "temp_min": 24,
+      "temp_max": 32,
+      "conditions": "Hot and humid",
+      "humidity": "75%",
+      "precipitation_chance": 60
+    },
+    "FALL": {
+      "temp_min": 15,
+      "temp_max": 23,
+      "conditions": "Cool and comfortable",
+      "humidity": "65%",
+      "precipitation_chance": 45
+    },
+    "WINTER": {
+      "temp_min": 3,
+      "temp_max": 12,
+      "conditions": "Cold and dry",
+      "humidity": "50%",
+      "precipitation_chance": 20
+    }
+  }
+}
