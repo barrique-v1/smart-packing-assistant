@@ -2,51 +2,51 @@
   "Dubai": [
     {
       "category": "DRESS_CODE",
-      "tip": "Schultern und Knie sollten bedeckt sein, besonders in öffentlichen Bereichen",
+      "tip": "Shoulders and knees should be covered, especially in public areas",
       "importance": "HIGH"
     },
     {
       "category": "CUSTOMS",
-      "tip": "Alkohol ist nur in lizenzierten Hotels erlaubt",
+      "tip": "Alcohol is only allowed in licensed hotels",
       "importance": "HIGH"
     },
     {
       "category": "CUSTOMS",
-      "tip": "Öffentliche Zuneigungsbekundungen sind nicht erlaubt",
+      "tip": "Public displays of affection are not allowed",
       "importance": "MEDIUM"
     }
   ],
   "Iceland": [
     {
       "category": "SAFETY",
-      "tip": "Wetter kann sich schnell ändern - immer mehrere Schichten einpacken",
+      "tip": "Weather can change quickly - always pack multiple layers",
       "importance": "HIGH"
     },
     {
       "category": "CUSTOMS",
-      "tip": "Schuhe vor dem Betreten von Häusern ausziehen",
+      "tip": "Remove shoes before entering homes",
       "importance": "MEDIUM"
     },
     {
       "category": "LANGUAGE",
-      "tip": "Englisch wird fast überall gesprochen",
+      "tip": "English is spoken almost everywhere",
       "importance": "LOW"
     }
   ],
   "Tokyo": [
     {
       "category": "CUSTOMS",
-      "tip": "Trinkgeld ist unüblich und kann als beleidigend empfunden werden",
+      "tip": "Tipping is uncommon and can be considered offensive",
       "importance": "HIGH"
     },
     {
       "category": "DRESS_CODE",
-      "tip": "Saubere Schuhe sind wichtig - oft werden Schuhe ausgezogen",
+      "tip": "Clean shoes are important - shoes are often removed",
       "importance": "MEDIUM"
     },
     {
       "category": "CUSTOMS",
-      "tip": "Leise sprechen in öffentlichen Verkehrsmitteln",
+      "tip": "Speak quietly on public transportation",
       "importance": "MEDIUM"
     }
   ]
