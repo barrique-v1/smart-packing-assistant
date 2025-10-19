@@ -3,8 +3,6 @@ package com.smartpacking.api.service
 import com.smartpacking.api.exception.ExternalServiceException
 import com.smartpacking.shared.dto.PackingRequest
 import com.smartpacking.shared.dto.PackingResponse
-import com.smartpacking.shared.dto.PackingItem
-import com.smartpacking.shared.model.WeatherInfo
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
@@ -18,192 +16,82 @@ interface AiWorkerClient {
 }
 
 /**
- * Mock implementation of AI Worker Client
- * Returns realistic dummy data for testing
- * Will be replaced with real HTTP client when AI Worker is ready
+ * Real implementation of AI Worker Client.
+ * Communicates with AI Worker service via HTTP.
+ *
+ * Error handling:
+ * - Connection failures (service down)
+ * - Client errors (400-level)
+ * - Server errors (500-level)
+ * - Unexpected exceptions
  */
 @Service
-class MockAiWorkerClient(
+class RealAiWorkerClient(
     @Value("\${ai.worker.url:http://localhost:8081}")
     private val aiWorkerUrl: String,
     private val restTemplate: RestTemplate
 ) : AiWorkerClient {
 
-    private val logger = LoggerFactory.getLogger(MockAiWorkerClient::class.java)
+    private val logger = LoggerFactory.getLogger(RealAiWorkerClient::class.java)
 
     override fun generatePackingList(request: PackingRequest): PackingResponse {
-        logger.info("Mock AI Worker: Generating packing list for ${request.destination}")
+        logger.info("Calling AI Worker: Generating packing list for ${request.destination}")
+        logger.debug("AI Worker URL: $aiWorkerUrl/api/ai/generate")
 
-        // TODO: Replace with actual HTTP call when AI Worker is ready
-        // val response = restTemplate.postForObject(
-        //     "$aiWorkerUrl/api/ai/generate",
-        //     request,
-        //     PackingResponse::class.java
-        // ) ?: throw ExternalServiceException("AI Worker", "No response received")
+        return try {
+            val response = restTemplate.postForObject(
+                "$aiWorkerUrl/api/ai/generate",
+                request,
+                PackingResponse::class.java
+            ) ?: throw ExternalServiceException("AI Worker", "No response received from AI Worker")
 
-        return generateMockResponse(request)
-    }
+            logger.info("✓ Successfully received packing list from AI Worker")
+            logger.debug("Response contains ${getTotalItems(response)} items")
 
-    private fun generateMockResponse(request: PackingRequest): PackingResponse {
-        val categories = when (request.travelType.name) {
-            "BUSINESS" -> generateBusinessCategories(request)
-            "VACATION" -> generateVacationCategories(request)
-            "BACKPACKING" -> generateBackpackingCategories(request)
-            else -> generateVacationCategories(request)
-        }
+            response
 
-        val weatherInfo = generateWeatherInfo(request)
-        val cultureTips = generateCultureTips(request.destination)
-
-        return PackingResponse(
-            id = java.util.UUID.randomUUID(), // Temporary, will be replaced
-            destination = request.destination,
-            categories = categories,
-            weatherInfo = weatherInfo,
-            cultureTips = cultureTips
-        )
-    }
-
-    private fun generateBusinessCategories(request: PackingRequest): com.smartpacking.shared.dto.PackingCategories {
-        return com.smartpacking.shared.dto.PackingCategories(
-            clothing = listOf(
-                PackingItem("Business suit", 2, "Professional attire for meetings"),
-                PackingItem("Dress shirts", 3, "White and light blue"),
-                PackingItem("Dress shoes", 1, "Black leather")
-            ),
-            tech = listOf(
-                PackingItem("Laptop", 1, "For presentations and work"),
-                PackingItem("Laptop charger", 1, "Essential for business trip"),
-                PackingItem("Travel adapter", 1, "Universal adapter for ${request.destination}")
-            ),
-            hygiene = listOf(
-                PackingItem("Toiletries", 1, "Basic hygiene items")
-            ),
-            documents = listOf(
-                PackingItem("Business cards", 1, "Networking essential"),
-                PackingItem("Passport", 1, "Required for international travel")
-            ),
-            other = listOf(
-                PackingItem("Notepad", 1, "For taking notes in meetings")
+        } catch (e: org.springframework.web.client.ResourceAccessException) {
+            logger.error("✗ AI Worker connection failed: ${e.message}")
+            throw ExternalServiceException(
+                "AI Worker",
+                "Could not connect to AI Worker at $aiWorkerUrl. Is the service running?",
+                e
             )
-        )
-    }
-
-    private fun generateVacationCategories(request: PackingRequest): com.smartpacking.shared.dto.PackingCategories {
-        val durationDays = request.durationDays
-        return com.smartpacking.shared.dto.PackingCategories(
-            clothing = listOf(
-                PackingItem("T-Shirts", (durationDays / 2).coerceAtLeast(3), "Casual wear"),
-                PackingItem("Shorts", 2, "For warm weather"),
-                PackingItem("Jeans", 1, "Versatile casual wear"),
-                PackingItem("Jacket", 1, "For cooler evenings"),
-                PackingItem("Underwear", durationDays + 2, "Bring extra"),
-                PackingItem("Socks", durationDays, "One pair per day")
-            ),
-            tech = listOf(
-                PackingItem("Smartphone", 1, "For photos and navigation"),
-                PackingItem("Charger", 1, "Phone charger"),
-                PackingItem("Camera", 1, "Capture memories")
-            ),
-            hygiene = listOf(
-                PackingItem("Sunscreen", 1, "SPF 50+ recommended"),
-                PackingItem("Toothbrush", 1, "Dental hygiene"),
-                PackingItem("Toothpaste", 1, "Travel size")
-            ),
-            documents = listOf(
-                PackingItem("Passport", 1, "Essential travel document"),
-                PackingItem("Travel insurance", 1, "Keep a copy")
-            ),
-            other = listOf(
-                PackingItem("Sunglasses", 1, "Sun protection")
+        } catch (e: org.springframework.web.client.HttpClientErrorException) {
+            logger.error("✗ AI Worker returned client error (${e.statusCode}): ${e.message}")
+            throw ExternalServiceException(
+                "AI Worker",
+                "AI Worker rejected request: ${e.statusText}",
+                e
             )
-        )
-    }
-
-    private fun generateBackpackingCategories(request: PackingRequest): com.smartpacking.shared.dto.PackingCategories {
-        return com.smartpacking.shared.dto.PackingCategories(
-            clothing = listOf(
-                PackingItem("Hiking boots", 1, "Waterproof and broken in"),
-                PackingItem("Quick-dry shirts", 3, "Lightweight and packable"),
-                PackingItem("Hiking pants", 2, "Convertible to shorts"),
-                PackingItem("Rain jacket", 1, "Waterproof and breathable")
-            ),
-            tech = listOf(
-                PackingItem("Headlamp", 1, "With extra batteries"),
-                PackingItem("Power bank", 1, "10000mAh capacity")
-            ),
-            hygiene = listOf(
-                PackingItem("First aid kit", 1, "Including blister treatment")
-            ),
-            documents = listOf(
-                PackingItem("Maps", 1, "Offline backup for navigation"),
-                PackingItem("Passport", 1, "Essential document")
-            ),
-            other = listOf(
-                PackingItem("Sleeping bag", 1, "Appropriate for season"),
-                PackingItem("Backpack", 1, "40-60L capacity"),
-                PackingItem("Water bottle", 1, "Reusable, 1L capacity"),
-                PackingItem("Multi-tool", 1, "Swiss Army knife style")
+        } catch (e: org.springframework.web.client.HttpServerErrorException) {
+            logger.error("✗ AI Worker returned server error (${e.statusCode}): ${e.message}")
+            throw ExternalServiceException(
+                "AI Worker",
+                "AI Worker encountered an error: ${e.statusText}",
+                e
             )
-        )
-    }
-
-    private fun generateWeatherInfo(request: PackingRequest): WeatherInfo {
-        // Mock weather data based on destination
-        return when (request.destination.lowercase()) {
-            "dubai" -> WeatherInfo(
-                tempMin = 25,
-                tempMax = 40,
-                conditions = "Hot and sunny",
-                humidity = "Low",
-                precipitationChance = 5
-            )
-            "iceland" -> WeatherInfo(
-                tempMin = 2,
-                tempMax = 12,
-                conditions = "Cool with frequent rain",
-                humidity = "High",
-                precipitationChance = 70
-            )
-            "tokyo" -> WeatherInfo(
-                tempMin = 15,
-                tempMax = 25,
-                conditions = "Mild and pleasant",
-                humidity = "Moderate",
-                precipitationChance = 40
-            )
-            else -> WeatherInfo(
-                tempMin = 15,
-                tempMax = 25,
-                conditions = "Variable",
-                humidity = "Moderate",
-                precipitationChance = 50
+        } catch (e: ExternalServiceException) {
+            // Re-throw our own exceptions
+            throw e
+        } catch (e: Exception) {
+            logger.error("✗ Unexpected error calling AI Worker: ${e.message}", e)
+            throw ExternalServiceException(
+                "AI Worker",
+                "Unexpected error communicating with AI Worker: ${e.message}",
+                e
             )
         }
     }
 
-    private fun generateCultureTips(destination: String): List<String> {
-        return when (destination.lowercase()) {
-            "dubai" -> listOf(
-                "Dress modestly - shoulders and knees should be covered in public areas",
-                "Alcohol is only permitted in licensed hotels",
-                "Public displays of affection are not allowed"
-            )
-            "iceland" -> listOf(
-                "Weather can change rapidly - always pack layers",
-                "Remove shoes before entering homes",
-                "English is widely spoken"
-            )
-            "tokyo" -> listOf(
-                "Tipping is not customary and can be considered rude",
-                "Speak quietly on public transportation",
-                "Shoes are often removed when entering homes"
-            )
-            else -> listOf(
-                "Research local customs before traveling",
-                "Learn a few basic phrases in the local language",
-                "Be respectful of cultural differences"
-            )
-        }
+    /**
+     * Helper method to count total items in response for logging.
+     */
+    private fun getTotalItems(response: PackingResponse): Int {
+        return response.categories.clothing.size +
+                response.categories.tech.size +
+                response.categories.hygiene.size +
+                response.categories.documents.size +
+                response.categories.other.size
     }
 }
