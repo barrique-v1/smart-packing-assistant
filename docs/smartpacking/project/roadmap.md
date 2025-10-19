@@ -158,21 +158,21 @@
 
 ---
 
-## Phase 6E: AI Worker - REST API & Testing
+## Phase 6E: AI Worker - REST API & Testing ✅
 
-- [ ] Create AiController.kt
-- [ ] Implement POST /api/ai/generate endpoint
-- [ ] Validate request DTO (@Valid annotations)
-- [ ] Format response DTO
-- [ ] Format error responses (proper HTTP status codes)
-- [ ] Add performance logging (generation time tracking)
-- [ ] Test AI Worker locally (Port 8081)
-- [ ] End-to-End test with curl/Postman:
-    - [ ] Test valid request (Iceland, 5 days, WINTER, VACATION)
-    - [ ] Test invalid destination
-    - [ ] Test API error scenarios
-- [ ] Document API endpoints
-- [ ] Verify: Endpoint works end-to-end, returns valid packing lists
+- [x] Create AiController.kt
+- [x] Implement POST /api/ai/generate endpoint
+- [x] Validate request DTO (@Valid annotations)
+- [x] Format response DTO
+- [x] Format error responses (proper HTTP status codes)
+- [x] Add performance logging (generation time tracking)
+- [x] Test AI Worker locally (Port 8081)
+- [x] End-to-End test with curl/Postman:
+    - [x] Test valid request (Iceland, 5 days, WINTER, VACATION)
+    - [x] Test invalid destination
+    - [x] Test API error scenarios
+- [x] Document API endpoints
+- [x] Verify: Endpoint works end-to-end, returns valid packing lists
 
 ---
 
