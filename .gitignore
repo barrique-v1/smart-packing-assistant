@@ -5,7 +5,6 @@
 *.swo
 *~
 .DS_Store
-CLAUDE.md
 
 # Environment variables
 .env
