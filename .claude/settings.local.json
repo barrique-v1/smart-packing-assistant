@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(./gradlew:*)",
+      "Bash(if [ -f .env ])",
+      "Bash(then echo \"EXISTS\")",
+      "Bash(else echo \"NOT FOUND\")",
+      "Bash(fi)",
+      "Bash(docker:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
