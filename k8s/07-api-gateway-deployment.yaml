@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway
+  namespace: packing-assistant
+  labels:
+    app: api-gateway
+    component: api-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-gateway
+  template:
+    metadata:
+      labels:
+        app: api-gateway
+        component: api-service
+    spec:
+      initContainers:
+        # Wait for PostgreSQL to be ready before starting API Gateway
+        - name: wait-for-postgres
+          image: busybox:1.28
+          command: ['sh', '-c', 'until nslookup postgres.packing-assistant.svc.cluster.local; do echo waiting for postgres; sleep 2; done']
+        # Wait for AI Worker to be ready
+        - name: wait-for-ai-worker
+          image: busybox:1.28
+          command: ['sh', '-c', 'until nslookup ai-worker.packing-assistant.svc.cluster.local; do echo waiting for ai-worker; sleep 2; done']
+      containers:
+        - name: api-gateway
+          image: smart-packing-assistant-api-gateway:latest
+          imagePullPolicy: Never  # Use local image loaded into Kind
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "docker"
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: postgres-db
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: postgres-user
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: postgres-password
+            - name: SPRING_FLYWAY_ENABLED
+              value: "true"
+            - name: AI_WORKER_URL
+              value: "http://ai-worker:8081"
+            - name: SERVER_PORT
+              value: "8080"
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 90
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3

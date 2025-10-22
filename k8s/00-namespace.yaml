@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: packing-assistant
+  labels:
+    app: smart-packing-assistant
+    environment: development

@@ -75,3 +75,6 @@ docs/smartpacking/explanation/
 *.crt
 secrets/
 credentials.json
+
+# Kubernetes secrets (generated from .env)
+k8s/01-postgres-secret.yaml

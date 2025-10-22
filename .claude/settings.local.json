@@ -6,7 +6,20 @@
       "Bash(then echo \"EXISTS\")",
       "Bash(else echo \"NOT FOUND\")",
       "Bash(fi)",
-      "Bash(docker:*)"
+      "Bash(docker:*)",
+      "Bash(tree:*)",
+      "Bash(cat:*)",
+      "Bash(/dev/null)",
+      "Bash(kind version:*)",
+      "Bash(kubectl version:*)",
+      "Bash(kind get:*)",
+      "Bash(kubectl cluster-info:*)",
+      "Bash(kubectl get:*)",
+      "Bash(kind load docker-image:*)",
+      "Bash(kubectl logs:*)",
+      "Bash(curl:*)",
+      "Bash(kubectl exec:*)",
+      "Bash(tee:*)"
     ],
     "deny": [],
     "ask": []
