@@ -19,7 +19,11 @@
       "Bash(kubectl logs:*)",
       "Bash(curl:*)",
       "Bash(kubectl exec:*)",
-      "Bash(tee:*)"
+      "Bash(tee:*)",
+      "Bash(kubectl apply:*)",
+      "Bash(kubectl describe:*)",
+      "Bash(kubectl delete:*)",
+      "Bash(pkill:*)"
     ],
     "deny": [],
     "ask": []

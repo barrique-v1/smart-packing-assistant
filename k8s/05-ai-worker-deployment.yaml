@@ -20,7 +20,7 @@ spec:
       containers:
         - name: ai-worker
           image: smart-packing-assistant-ai-worker:latest
-          imagePullPolicy: Never  # Use local image loaded into Kind
+          imagePullPolicy: IfNotPresent  # Use local image (Docker Desktop)
           ports:
             - containerPort: 8081
               name: http

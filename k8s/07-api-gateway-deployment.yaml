@@ -29,7 +29,7 @@ spec:
       containers:
         - name: api-gateway
           image: smart-packing-assistant-api-gateway:latest
-          imagePullPolicy: Never  # Use local image loaded into Kind
+          imagePullPolicy: IfNotPresent  # Use local image (Docker Desktop)
           ports:
             - containerPort: 8080
               name: http
