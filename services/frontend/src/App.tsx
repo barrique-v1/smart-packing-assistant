@@ -30,11 +30,15 @@ function App() {
     setError(null);
 
     try {
+      console.log('Sending request:', request);
       const response = await apiClient.generatePackingList(request);
+      console.log('Received response:', response);
+      console.log('Response categories:', response?.categories);
       setCurrentList(response);
       setActiveTab('results');
       setHistoryRefreshTrigger((prev) => prev + 1);
     } catch (err: any) {
+      console.error('Error generating packing list:', err);
       setError(err.message || 'Failed to generate packing list');
       setActiveTab('results');
     } finally {

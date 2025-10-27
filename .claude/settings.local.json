@@ -25,7 +25,9 @@
       "Bash(kubectl delete:*)",
       "Bash(pkill:*)",
       "Bash(npm install:*)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(find:*)",
+      "Bash(../../gradlew build:*)"
     ],
     "deny": [],
     "ask": []

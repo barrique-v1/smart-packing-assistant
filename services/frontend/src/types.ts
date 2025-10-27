@@ -12,9 +12,17 @@ export interface PackingRequest {
 
 // Response types
 export interface PackingItem {
-  name: string;
+  item: string;
   quantity: number;
-  category: string;
+  reason: string;
+}
+
+export interface PackingCategories {
+  clothing: PackingItem[];
+  tech: PackingItem[];
+  hygiene: PackingItem[];
+  documents: PackingItem[];
+  other: PackingItem[];
 }
 
 export interface WeatherInfo {
@@ -26,13 +34,10 @@ export interface WeatherInfo {
 export interface PackingResponse {
   id: string;
   destination: string;
-  durationDays: number;
-  travelType: TravelType;
-  season: Season;
-  items: PackingItem[];
-  weatherInfo: WeatherInfo;
+  categories: PackingCategories;
+  weatherInfo: WeatherInfo | null;
   cultureTips: string[];
-  createdAt: string;
+  specialNotes: string | null;
 }
 
 // Session types

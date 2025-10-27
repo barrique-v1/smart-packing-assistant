@@ -1,10 +1,12 @@
-import type { PackingResponse, PackingItem } from '../types';
+import type { PackingResponse } from '../types';
 
 interface PackingListProps {
   packingList: PackingResponse | null;
 }
 
 export default function PackingList({ packingList }: PackingListProps) {
+  console.log('PackingList received:', packingList);
+
   if (!packingList) {
     return (
       <div className="empty-state">
@@ -14,26 +16,29 @@ export default function PackingList({ packingList }: PackingListProps) {
     );
   }
 
-  // Group items by category
-  const itemsByCategory = packingList.items.reduce((acc, item) => {
-    if (!acc[item.category]) {
-      acc[item.category] = [];
-    }
-    acc[item.category].push(item);
-    return acc;
-  }, {} as Record<string, PackingItem[]>);
+  // Get categories from the response with safety checks
+  console.log('Categories:', packingList.categories);
+  const categoriesMap = packingList.categories || {};
+  console.log('Categories map:', categoriesMap);
 
-  const categories = Object.keys(itemsByCategory).sort();
+  const categories = Object.entries(categoriesMap)
+    .filter(([, items]) => items && Array.isArray(items) && items.length > 0)
+    .map(([category]) => category)
+    .sort();
+
+  console.log('Filtered categories:', categories);
+
+  // Calculate total items with safety checks
+  const totalItems = Object.values(categoriesMap).reduce((sum, items) => {
+    return sum + (Array.isArray(items) ? items.length : 0);
+  }, 0);
+
+  console.log('Total items:', totalItems);
 
   return (
     <div className="packing-list">
       <div className="list-header">
         <h2>Packing List for {packingList.destination}</h2>
-        <div className="list-meta">
-          <span className="badge">{packingList.durationDays} days</span>
-          <span className="badge">{packingList.season}</span>
-          <span className="badge">{packingList.travelType}</span>
-        </div>
       </div>
 
       {/* Weather Info */}
@@ -66,11 +71,14 @@ export default function PackingList({ packingList }: PackingListProps) {
       <div className="categories">
         {categories.map((category) => (
           <div key={category} className="category-section">
-            <h3 className="category-title">{category}</h3>
+            <h3 className="category-title">{category.charAt(0).toUpperCase() + category.slice(1)}</h3>
             <ul className="items-list">
-              {itemsByCategory[category].map((item, index) => (
+              {categoriesMap[category as keyof typeof categoriesMap]?.map((item, index) => (
                 <li key={index} className="item">
-                  <span className="item-name">{item.name}</span>
+                  <div className="item-content">
+                    <span className="item-name">{item.item}</span>
+                    {item.reason && <span className="item-reason">{item.reason}</span>}
+                  </div>
                   <span className="item-quantity">× {item.quantity}</span>
                 </li>
               ))}
@@ -81,10 +89,7 @@ export default function PackingList({ packingList }: PackingListProps) {
 
       <div className="list-footer">
         <p className="total-items">
-          Total items: {packingList.items.length}
-        </p>
-        <p className="created-at">
-          Created: {new Date(packingList.createdAt).toLocaleString()}
+          Total items: {totalItems}
         </p>
       </div>
     </div>

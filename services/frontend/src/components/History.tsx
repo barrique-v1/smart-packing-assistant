@@ -76,17 +76,11 @@ export default function History({ onSelectList, refreshTrigger }: HistoryProps) 
           >
             <div className="history-item-header">
               <h3>{list.destination}</h3>
-              <span className="history-date">
-                {new Date(list.createdAt).toLocaleDateString()}
-              </span>
-            </div>
-            <div className="history-item-meta">
-              <span className="badge-small">{list.durationDays} days</span>
-              <span className="badge-small">{list.season}</span>
-              <span className="badge-small">{list.travelType}</span>
             </div>
             <div className="history-item-footer">
-              <span className="item-count">{list.items.length} items</span>
+              <span className="item-count">
+                {list.categories ? Object.values(list.categories).reduce((sum, items) => sum + (Array.isArray(items) ? items.length : 0), 0) : 0} items
+              </span>
             </div>
           </div>
         ))}
