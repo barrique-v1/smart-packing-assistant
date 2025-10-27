@@ -46,11 +46,19 @@ class ApiClient {
       return config;
     });
 
-    // Handle 401 errors by creating new session
+    // Handle session errors by creating new session
     this.axiosInstance.interceptors.response.use(
       (response) => response,
       async (error: AxiosError) => {
-        if (error.response?.status === 401) {
+        const errorMessage = (error.response?.data as any)?.message || '';
+        const isSessionError =
+          error.response?.status === 401 ||
+          error.response?.status === 404 ||
+          errorMessage.includes('Session not found') ||
+          errorMessage.includes('session');
+
+        if (isSessionError) {
+          console.log('Session error detected, creating new session...');
           SessionManager.clearSession();
           // Try to create new session and retry
           try {
@@ -60,6 +68,7 @@ class ApiClient {
               return this.axiosInstance.request(error.config);
             }
           } catch (sessionError) {
+            console.error('Failed to create new session:', sessionError);
             throw this.handleError(sessionError);
           }
         }

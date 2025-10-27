@@ -57,6 +57,16 @@ function App() {
     setActiveTab('form');
   };
 
+  const handleRefreshSession = async () => {
+    try {
+      await apiClient.createSession();
+      setError(null);
+      alert('New session created successfully!');
+    } catch (err: any) {
+      setError('Failed to create new session: ' + err.message);
+    }
+  };
+
   return (
     <div className="app">
       <header className="app-header">
@@ -114,9 +124,16 @@ function App() {
                 <div className="error-message">
                   <p>{error}</p>
                 </div>
-                <button onClick={handleNewList} className="btn-primary">
-                  Try Again
-                </button>
+                <div className="error-actions">
+                  <button onClick={handleNewList} className="btn-primary">
+                    Try Again
+                  </button>
+                  {error.toLowerCase().includes('session') && (
+                    <button onClick={handleRefreshSession} className="btn-secondary">
+                      Refresh Session
+                    </button>
+                  )}
+                </div>
               </div>
             )}
 

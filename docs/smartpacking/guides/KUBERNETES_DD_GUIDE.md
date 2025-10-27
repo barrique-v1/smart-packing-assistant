@@ -152,7 +152,9 @@ The API Gateway is exposed via **NodePort on port 30080**:
 
 # API Gateway
 kubectl port-forward -n packing-assistant service/api-gateway 8080:8080
+```
 
+```bash
 # Frontend
 kubectl port-forward -n packing-assistant service/frontend 5173:80
 
