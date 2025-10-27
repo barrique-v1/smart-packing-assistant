@@ -48,7 +48,9 @@ Docker Desktop includes a fully functional Kubernetes cluster that's **simpler t
 kubectl config current-context
 
 # Should output: docker-desktop
+```
 
+```bash
 # Verify cluster info
 kubectl cluster-info
 
@@ -60,7 +62,9 @@ kubectl cluster-info
 ```bash
 # From project root
 docker compose build
+```
 
+```bash
 # Verify images exist
 docker images | grep smart-packing
 ```
@@ -122,7 +126,9 @@ kubectl get pods -n packing-assistant
 # postgres-xxx                   1/1     Running   0          2m
 # ai-worker-xxx                  1/1     Running   0          1m
 # api-gateway-xxx                1/1     Running   0          1m
+```
 
+```bash
 # Check services
 kubectl get services -n packing-assistant
 
@@ -141,6 +147,16 @@ kubectl logs -n packing-assistant deployment/postgres --tail=50
 ### 5. Access the Application
 
 The API Gateway is exposed via **NodePort on port 30080**:
+```bash
+# activate port forwarding (macOS)
+
+# API Gateway
+kubectl port-forward -n packing-assistant service/api-gateway 8080:8080
+
+# Frontend
+kubectl port-forward -n packing-assistant service/frontend 5173:80
+
+```
 
 ```bash
 # Test health endpoint

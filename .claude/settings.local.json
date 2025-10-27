@@ -23,7 +23,9 @@
       "Bash(kubectl apply:*)",
       "Bash(kubectl describe:*)",
       "Bash(kubectl delete:*)",
-      "Bash(pkill:*)"
+      "Bash(pkill:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run build:*)"
     ],
     "deny": [],
     "ask": []
