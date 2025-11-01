@@ -74,6 +74,15 @@ class PromptService(
         - Other: Weather-specific items (umbrella, sunscreen), activity-specific items
 
         Remember: Practical and reliable beats creative and excessive. When in doubt, keep it simple.
+        
+        
+        CRITICAL VALIDATION CHECKPOINT
+        Your response MUST include ALL of these items (no exceptions):
+        1. Underwear  2. Socks  3. Shirts  4. Pants  5. Footwear  6. Sleepwear
+        7. Phone Charger  8. Power Adapter  9. Toothbrush  10. Toothpaste
+        11. Deodorant  12. Shampoo  13. Passport  14. Travel Insurance
+        YOUR OUTPUT IS INCORRECT IF ANY OF THESE ITEMS ARE MISSING - PLEASE ENSURE THEY ARE INCLUDED.
+
     """.trimIndent()
 
     /**
