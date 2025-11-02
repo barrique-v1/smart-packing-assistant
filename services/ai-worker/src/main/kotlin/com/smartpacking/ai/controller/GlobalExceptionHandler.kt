@@ -52,6 +52,38 @@ class GlobalExceptionHandler {
     }
 
     /**
+     * Handles invalid destination errors (400 Bad Request).
+     * Part of the anti-hallucination strategy - rejects destinations not in the whitelist.
+     */
+    @ExceptionHandler(InvalidDestinationException::class)
+    fun handleInvalidDestination(
+        ex: InvalidDestinationException,
+        request: HttpServletRequest
+    ): ResponseEntity<ErrorResponse> {
+        logger.warn("Invalid destination requested: {}", ex.destination)
+
+        val details = buildList {
+            add("Invalid destination: '${ex.destination}'")
+            add("Total valid destinations: ${ex.validDestinations.size}")
+            if (ex.validDestinations.isNotEmpty()) {
+                add("Sample destinations: ${ex.validDestinations.take(20).joinToString(", ")}")
+            }
+            add("Hint: Use GET /api/ai/destinations to see all supported destinations")
+        }
+
+        val errorResponse = ErrorResponse(
+            timestamp = LocalDateTime.now(),
+            status = HttpStatus.BAD_REQUEST.value(),
+            error = "Invalid Destination",
+            message = ex.message ?: "The destination you entered is not supported.",
+            path = request.requestURI,
+            details = details
+        )
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse)
+    }
+
+    /**
      * Handles authentication errors (401 Unauthorized).
      */
     @ExceptionHandler(AuthenticationException::class)

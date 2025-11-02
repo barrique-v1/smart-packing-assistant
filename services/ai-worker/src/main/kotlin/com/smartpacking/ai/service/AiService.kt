@@ -37,7 +37,8 @@ class AiService(
     private val objectMapper: ObjectMapper,
     private val weatherService: WeatherService,
     private val cultureService: CultureService,
-    private val vectorSearchService: VectorSearchService
+    private val vectorSearchService: VectorSearchService,
+    private val destinationValidationService: DestinationValidationService
 ) {
     private val logger = LoggerFactory.getLogger(AiService::class.java)
 
@@ -65,7 +66,19 @@ class AiService(
         logger.info("Destination: ${request.destination}, Duration: ${request.durationDays} days, " +
                 "Season: ${request.season}, Type: ${request.travelType}")
 
+        // Step 0: VALIDATE DESTINATION (Anti-hallucination checkpoint)
+        // CRITICAL: This must be BEFORE try-catch to ensure validation errors are never swallowed
+        if (!destinationValidationService.validateDestination(request.destination)) {
+            logger.error("✗ Validation failed: Invalid destination '${request.destination}'")
+            throw InvalidDestinationException(
+                destination = request.destination,
+                validDestinations = destinationValidationService.getAllDestinations()
+            )
+        }
+        logger.info("✓ Destination validated: ${request.destination}")
+
         try {
+
             // Step 1: NEW - Search vector database for relevant items
             val vectorSearchStart = System.currentTimeMillis()
             val retrievedItems = vectorSearchService.searchRelevantItems(request)
