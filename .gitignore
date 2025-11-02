@@ -68,6 +68,8 @@ temp/
 *.bak
 *.cache
 docs/smartpacking/explanation/
+docs/smartpacking/lecture/
+
 
 # Secrets and credentials
 *.key

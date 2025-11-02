@@ -28,6 +28,9 @@ class OpenAiConfig {
     @Value("\${spring.ai.openai.chat.options.temperature}")
     private var temperature: Double = 0.3
 
+    @Value("\${spring.ai.openai.embedding.options.model:text-embedding-3-small}")
+    private lateinit var embeddingModel: String
+
     /**
      * Validates API key configuration on startup.
      */
@@ -64,6 +67,19 @@ class OpenAiConfig {
     fun chatClient(chatModel: OpenAiChatModel): ChatClient {
         return ChatClient.builder(chatModel).build()
     }
+
+    /**
+     * Spring AI auto-configures OpenAiEmbeddingModel based on application.properties.
+     *
+     * Configuration properties:
+     * - spring.ai.openai.embedding.options.model=text-embedding-3-small
+     * - spring.ai.openai.embedding.options.dimensions=1536
+     *
+     * The auto-configured bean is used by VectorSearchService to generate embeddings
+     * for user queries when searching the Qdrant vector database.
+     *
+     * No explicit @Bean needed - Spring Boot handles this automatically!
+     */
 
     /**
      * Returns the configured model name for logging/debugging purposes.

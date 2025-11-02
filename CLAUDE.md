@@ -42,14 +42,14 @@ Frontend (React) :5173 → API Gateway (Spring) :8080 → AI Worker (Spring) :80
 2. **Context-Aware Recommendations**: Weather data, cultural tips, activity-specific items
 3. **Session Management**: Secure session tokens, 24-hour auto-expiry
 4. **Database Persistence**: PostgreSQL with JPA/Hibernate
-5. **AI Integration**: OpenAI GPT-4 with anti-hallucination safeguards
+5. **AI Integration**: OpenAI GPT-5 with anti-hallucination safeguards
 
 ## AI Integration
 
 ### Configuration
 - **Framework**: Spring AI 1.0.0-M4 (official Spring AI framework)
 - **API Key**: Configured in `.env` file → `OPENAI_API_KEY` environment variable
-- **Model**: GPT-4 with temperature 0.3 (reliability over creativity)
+- **Model**: GPT-5 with temperature 0.3 (reliability over creativity)
 - **Max Tokens**: 2000
 - **Response Format**: Structured JSON with 5 categories
 
@@ -195,7 +195,7 @@ com.smartpacking.api/
 ### AI Worker (`services/ai-worker/`)
 **Configuration** (`application.properties`):
 - Port: 8081
-- OpenAI Model: gpt-4
+- OpenAI Model: gpt-5
 - Temperature: 0.3
 - Timeout: 30 seconds
 - Max Tokens: 2000
@@ -203,17 +203,23 @@ com.smartpacking.api/
 **Structure**:
 ```
 com.smartpacking.ai/
-├── controller/     # AiController (POST /api/ai/generate)
-├── service/        # AiService, PromptService, WeatherService, CultureService
-├── model/          # Data models (AiPackingResponse, PackingItem)
-├── exception/      # Custom exceptions (7 types)
+├── controller/     # AiController (POST /api/ai/generate, GET /health, /test-connection)
+├── service/        # AiService, PromptService, WeatherService, CultureService, OpenAiHealthService
+├── model/          # Data models (AiPackingResponse, PackingItem, PackingCategories, WeatherData, CultureTip)
+├── exception/      # Custom exceptions (7 types) + GlobalExceptionHandler
 ├── mapper/         # DTO mapping (PackingResponseMapper)
-└── config/         # OpenAI configuration
+├── dto/            # ErrorResponse DTOs
+└── config/         # OpenAI configuration (Spring AI)
 ```
 
 **Data Files** (`src/main/resources/data/`):
 - `weather_data.json`: Weather by destination/season
 - `culture_tips.json`: Cultural tips by destination
+
+**API Endpoints**:
+- `POST /api/ai/generate` - Generate packing list (returns 201 Created)
+- `GET /api/ai/health` - Service health check
+- `GET /api/ai/test-connection` - Test OpenAI API connectivity
 
 ### Shared Module (`services/shared/`)
 ```
@@ -222,6 +228,41 @@ com.smartpacking.shared/
 ├── enums/     # TravelType (BUSINESS, VACATION, BACKPACKING), Season
 └── model/     # WeatherInfo
 ```
+
+**Key DTOs**:
+- `PackingRequest`: Input validation with Jakarta Bean Validation (@NotBlank, @Min, @Max)
+- `PackingResponse`: Response structure with UUID, destination, categories, weather, culture tips
+- `PackingCategories`: Categorized items (clothing, tech, hygiene, documents, other)
+- `PackingItem`: Individual item (item name, quantity, reason)
+
+### Frontend (`services/frontend/`)
+**Configuration**:
+- Port: 5173 (development), 80 (production via Nginx)
+- Build Tool: Vite 7.1.7
+- Package Manager: npm
+
+**Structure**:
+```
+src/
+├── App.tsx                # Main application component
+├── types.ts               # TypeScript interfaces (API types, enums)
+├── components/
+│   ├── PackingForm.tsx    # User input form
+│   ├── PackingList.tsx    # Display generated list
+│   └── History.tsx        # Historical lists
+└── services/
+    └── api.ts             # HTTP client (axios)
+```
+
+**Key Features**:
+- Session token management
+- Form validation for destination, duration, travel type, season
+- Real-time API communication with API Gateway
+- Responsive UI for packing list display
+- Docker deployment with Nginx (multi-stage build)
+
+**Environment Variables**:
+- `VITE_API_URL`: API Gateway URL (default: http://localhost:8080)
 
 ### Kotlin Configuration
 - JSR-305 strict mode (`-Xjsr305=strict`)
@@ -259,6 +300,41 @@ curl -X POST http://localhost:8080/api/packing/generate \
   -d '{"destination":"Paris","durationDays":3,"travelType":"VACATION","season":"SPRING"}'
 ```
 
+## API Endpoints Reference
+
+### API Gateway Endpoints (Port 8080)
+
+#### Session Management (`/api/sessions`)
+| Method | Endpoint | Description | Auth | Response |
+|--------|----------|-------------|------|----------|
+| POST | `/api/sessions` | Create new session | None | `{"sessionToken": "...", "sessionId": "uuid"}` |
+| GET | `/api/sessions` | Get all active sessions | None | `List<SessionResponse>` |
+| GET | `/api/sessions/{token}` | Get session info | None | `SessionResponse` |
+| GET | `/api/sessions/{token}/validate` | Validate session token | None | `{"valid": boolean}` |
+| POST | `/api/sessions/cleanup` | Cleanup inactive sessions (>24h) | None | `{"cleaned": count}` |
+
+#### Packing Lists (`/api/packing`)
+| Method | Endpoint | Description | Auth | Response |
+|--------|----------|-------------|------|----------|
+| POST | `/api/packing/generate` | Generate packing list | **Required** (X-Session-Token) | `PackingResponse` (201 Created) |
+| GET | `/api/packing/{id}` | Get specific packing list | None | `PackingResponse` |
+| GET | `/api/packing/session` | Get all lists for session | **Required** (X-Session-Token) | `List<PackingResponse>` |
+| GET | `/api/packing/session/recent` | Get recent lists (with limit) | **Required** (X-Session-Token) | `List<PackingResponse>` |
+| GET | `/api/packing/search?destination={query}` | Search by destination | None | `List<PackingResponse>` |
+| GET | `/api/packing/health` | Health check | None | `{"status": "UP"}` |
+
+**CORS Configuration**: Currently allows `http://localhost:5173` (development frontend)
+
+### AI Worker Endpoints (Port 8081)
+
+| Method | Endpoint | Description | Response |
+|--------|----------|-------------|----------|
+| POST | `/api/ai/generate` | Generate packing list from AI | `PackingResponse` (201 Created) |
+| GET | `/api/ai/health` | Service health check | `{"status": "UP"}` |
+| GET | `/api/ai/test-connection` | Test OpenAI API connection | `{"connected": boolean}` |
+
+**Note**: AI Worker endpoints are internal and called by API Gateway, not directly by frontend.
+
 ## Important Constraints
 
 1. **Database Access**: Only API Gateway accesses PostgreSQL. AI Worker is stateless.
@@ -273,7 +349,7 @@ curl -X POST http://localhost:8080/api/packing/generate \
 
 ## Project Status
 
-**Current Phase**: Phase 7 Complete (Services Connected) ✅
+**Current Phase**: Phase 10 Complete (Full Stack Implementation) ✅
 
 **Completed**:
 - ✅ Phase 1: Project setup, database schema, services initialized
@@ -283,18 +359,21 @@ curl -X POST http://localhost:8080/api/packing/generate \
 - ✅ Phase 5: AI Worker dummy data (weather, culture services)
 - ✅ Phase 6A-E: AI Worker full implementation (OpenAI, prompts, parsing, validation, API, testing)
 - ✅ Phase 7: Services connected (HTTP client, error handling, E2E testing)
+- ✅ Phase 8: Docker (Multi-stage Dockerfiles, docker-compose.yml with health checks)
+- ✅ Phase 9: Kubernetes (11 manifests with init containers, secrets, PVC)
+- ✅ Phase 10: Frontend (React + TypeScript + Vite with Nginx deployment)
 
-**Next Steps** (from `docs/smartpacking/project/roadmap.md`):
-1. **Phase 8**: Docker (Dockerfiles, docker-compose.yml)
-2. **Phase 9**: Kubernetes (manifests in `k8s/`, 2+ services)
-3. **Phase 10**: Frontend (React, optional)
-4. **Phase 11**: Documentation (README with 10 questions)
-5. **Phase 12**: Pitch (1-3 min audio/video)
+**Remaining Tasks**:
+1. **Phase 11**: Documentation (Enhance README with 10 questions, currently minimal)
+2. **Phase 12**: Pitch (1-3 min audio/video, max 25 MB)
 
 **Documentation**:
-- `POSTMAN_TESTING_GUIDE.md`: API testing with Postman
+- `docs/smartpacking/guides/POSTMAN_TESTING_GUIDE.md`: API testing with Postman (629 lines)
 - `services/api-gateway/END_TO_END_TESTING.md`: Full system testing
-- `services/ai-worker/API_DOCUMENTATION.md`: AI Worker API reference
+- `services/ai-worker/API_DOCUMENTATION.md`: AI Worker API reference (374 lines)
+- `docs/smartpacking/guides/DOCKER_GUIDE.md`: Docker deployment guide (427 lines)
+- `docs/smartpacking/guides/KUBERNETES_DD_GUIDE.md`: Kubernetes deployment (926 lines)
+- `docs/smartpacking/guides/KUBERNETES_UPDATE_GUIDE.md`: K8s update procedures (399 lines)
 - `docs/smartpacking/project/roadmap.md`: Detailed 15-phase plan
 
 ## Environment Setup
@@ -321,32 +400,95 @@ curl http://localhost:8080/api/packing/health
 ```
 
 ### Docker Deployment
+**docker-compose.yml** defines 4 services with health checks and dependencies:
+
+1. **postgres** (postgres:15-alpine)
+   - Port: 5432, Volume: postgres-data (persistent)
+   - Health check: `pg_isready`
+
+2. **ai-worker** (custom multi-stage build)
+   - Port: 8081, Profile: docker
+   - Health check: `/actuator/health` (60s start period)
+   - Depends on: none (stateless)
+
+3. **api-gateway** (custom multi-stage build)
+   - Port: 8080, Profile: docker
+   - Health check: `/actuator/health` (90s start period)
+   - Depends on: postgres (healthy), ai-worker (healthy)
+   - Flyway enabled automatically
+
+4. **frontend** (custom multi-stage build with Nginx)
+   - Port: 5173:80 (maps to Nginx)
+   - Health check: `wget` on root path
+   - Depends on: api-gateway (healthy)
+
+**Multi-Stage Dockerfiles**:
+- **Backend** (api-gateway, ai-worker): gradle:8.14-jdk21-alpine → eclipse-temurin:21-jre-alpine
+  - Non-root user (spring:spring)
+  - Optimized for production (JRE only)
+- **Frontend**: node:20-alpine → nginx:alpine
+  - Vite build optimization
+  - Nginx for static file serving
+
+**Commands**:
 ```bash
 # Build and start all services
 docker compose up -d
 
+# Build specific service
+docker compose build api-gateway
+
 # Check logs
 docker compose logs -f
 
-# Stop
+# Stop and remove
 docker compose down
+
+# Stop and remove with volumes
+docker compose down -v
 ```
 
 ### Kubernetes Deployment
-**Required Manifests** (in `k8s/` directory):
-- `namespace.yaml` - Dedicated namespace
-- `postgres-secret.yaml` - DB credentials (base64-encoded)
-- `postgres-pvc.yaml` - Persistent volume claim
-- `postgres-deployment.yaml`, `postgres-service.yaml`
-- `api-gateway-deployment.yaml`, `api-gateway-service.yaml`
-- `ai-worker-deployment.yaml`, `ai-worker-service.yaml`
-- `frontend-deployment.yaml`, `frontend-service.yaml` (optional)
+**Required Manifests** (11 files in `k8s/` directory):
+1. `00-namespace.yaml` - Namespace: packing-assistant
+2. `01-postgres-secret.yaml` - Secret: app-secrets (DB credentials, OpenAI key)
+3. `02-postgres-pvc.yaml` - PersistentVolumeClaim: 10Gi
+4. `03-postgres-deployment.yaml` - PostgreSQL 15 deployment
+5. `04-postgres-service.yaml` - ClusterIP service (port 5432)
+6. `05-ai-worker-deployment.yaml` - AI Worker with resource limits (512Mi-1Gi)
+7. `06-ai-worker-service.yaml` - ClusterIP service (port 8081)
+8. `07-api-gateway-deployment.yaml` - API Gateway with init containers, resource limits
+9. `08-api-gateway-service.yaml` - ClusterIP service (port 8080)
+10. `09-frontend-deployment.yaml` - Frontend with Nginx (256Mi-512Mi)
+11. `10-frontend-service.yaml` - LoadBalancer/NodePort (port 80)
+
+**Key Features**:
+- Init containers for service dependencies (wait-for-postgres, wait-for-ai-worker)
+- Resource requests and limits for all pods
+- Liveness and readiness probes with `/actuator/health`
+- Secret references for sensitive data (no hardcoded credentials)
+- Service discovery via DNS (service-name.namespace.svc.cluster.local)
+- Persistent storage for PostgreSQL
 
 **Deploy**:
 ```bash
+# Create cluster
 kind create cluster
+
+# Load Docker images to kind
+kind load docker-image smart-packing-assistant-api-gateway:latest
+kind load docker-image smart-packing-assistant-ai-worker:latest
+kind load docker-image smart-packing-assistant-frontend:latest
+
+# Apply manifests
 kubectl apply -f k8s/
-kubectl get pods -w
+
+# Watch deployment
+kubectl get pods -n packing-assistant -w
+
+# Port forwarding (for testing)
+kubectl port-forward -n packing-assistant service/frontend 5173:80
+kubectl port-forward -n packing-assistant service/api-gateway 8080:8080
 ```
 
 ## Testing
@@ -382,6 +524,66 @@ See `services/api-gateway/END_TO_END_TESTING.md` for:
 - Database verification queries
 - Error scenarios
 
+## Development Notes & Best Practices
+
+### Environment Variables
+- ✅ `.env` file is in `.gitignore` (line 10)
+- ⚠️ If `.env` is tracked by git (was added before .gitignore), run:
+  ```bash
+  git rm --cached .env
+  git commit -m "Remove .env from tracking"
+  ```
+- Create `.env` from `.env.example` for local development
+- Never commit real API keys to version control
+
+### CORS Configuration
+- **Current**: Hardcoded to `http://localhost:5173` in controllers (`@CrossOrigin` annotation)
+- **Location**: `PackingController.kt` and `SessionController.kt` (line 19)
+- **Production**: Should use environment-based configuration
+- **Recommendation**: Move to `CorsConfig.kt` with profile-specific allowed origins
+
+### Frontend-Backend Communication
+- **Local Dev**: Frontend (5173) → API Gateway (8080)
+- **Docker**: Frontend (80 via Nginx) → API Gateway (8080)
+- **K8s**: Service discovery via DNS names
+- **Environment Variable**: `VITE_API_URL` configures API endpoint
+
+### Database Credentials
+- **Local**: Hardcoded in `application.properties` (admin/secret123) - OK for dev
+- **Docker/K8s**: Uses environment variables from secrets - REQUIRED
+- **Production**: MUST use strong passwords and Kubernetes Secrets
+
+### README Status
+- **Current**: Minimal (only "# smart-packing-assistant", 25 bytes)
+- **Required**: Maximum 220 lines with 10 questions answered
+- **Priority**: HIGH (worth 40 points in grading)
+- **Content Needed**: Architecture, deployment, API usage, security, testing
+
+### Git Workflow
+- **Current Branch**: main
+- **Modified Files** (unstaged):
+  - `.gitignore`
+  - `services/ai-worker/src/main/resources/application.properties`
+  - `services/ai-worker/src/main/resources/application-docker.properties`
+- **Untracked Documentation** (should be committed):
+  - `docs/smartpacking/guides/POSTMAN_TESTING_GUIDE.md`
+  - `services/ai-worker/API_DOCUMENTATION.md`
+  - `services/api-gateway/END_TO_END_TESTING.md`
+
+### Testing Strategy
+- **Unit Tests**: JUnit 5 in `src/test/kotlin/`
+- **Integration Tests**: Require PostgreSQL running, use `@ActiveProfiles("integration")`
+- **API Tests**: Postman collection with 12+ requests
+- **E2E Tests**: Full workflow from session creation to packing list generation
+- **Docker Tests**: `docker compose up` → test endpoints → `docker compose down`
+- **K8s Tests**: Deploy to kind → port-forward → test → cleanup
+
+### Performance Considerations
+- **AI Worker**: 30-second timeout for OpenAI API calls
+- **Database**: GIN indexes on JSONB columns for fast queries
+- **Session Cleanup**: Function `cleanup_inactive_sessions()` for maintenance
+- **Resource Limits**: Configured in Kubernetes manifests (512Mi-1Gi memory)
+
 ## Troubleshooting
 
 ### "Connection refused" on port 8080/8081
@@ -410,6 +612,127 @@ export OPENAI_API_KEY=sk-actual-key
 ./gradlew bootRun
 ```
 
+## Dependencies & Build Configuration
+
+### Backend Services (Gradle)
+**Root Build** (`build.gradle.kts`, `settings.gradle.kts`):
+- Gradle: 8.14.3
+- Included modules: shared, api-gateway, ai-worker
+
+**API Gateway** (`services/api-gateway/build.gradle.kts`):
+- Spring Boot: 3.5.6
+- Kotlin: 1.9.25 + kotlin-jvm plugin
+- kotlin-spring (all-open for @Component classes)
+- Dependencies:
+  - spring-boot-starter-web
+  - spring-boot-starter-data-jpa
+  - spring-boot-starter-validation
+  - flyway-core
+  - postgresql (runtime)
+  - jackson-module-kotlin
+
+**AI Worker** (`services/ai-worker/build.gradle.kts`):
+- Spring Boot: 3.5.6
+- Kotlin: 1.9.25
+- Dependencies:
+  - spring-boot-starter-web
+  - spring-boot-starter-validation
+  - spring-ai-openai-spring-boot-starter (1.0.0-M4)
+  - jackson-module-kotlin
+
+**Shared Module** (`services/shared/build.gradle.kts`):
+- Kotlin: 1.9.25
+- No Spring Boot (library module)
+- Dependencies:
+  - jackson-annotations
+  - jakarta.validation-api
+
+### Frontend (npm)
+**Package.json** (`services/frontend/package.json`):
+- React: 18.3.1
+- TypeScript: 5.9.3
+- Vite: 7.1.7
+- Dependencies:
+  - axios: ^1.13.0 (HTTP client)
+  - react, react-dom: ^18.3.1
+- Dev Dependencies:
+  - @vitejs/plugin-react: ^5.0.4
+  - typescript: ~5.9.3
+  - eslint: ^9.36.0
+  - typescript-eslint: ^8.45.0
+
+### Database
+- PostgreSQL: 15 (alpine in containers)
+- JDBC Driver: Included in spring-boot-starter-data-jpa
+- Migration Tool: Flyway
+- Extensions: uuid-ossp (for UUID generation)
+
+### Container Images
+- **Builder Images**:
+  - gradle:8.14-jdk21-alpine (backend build)
+  - node:20-alpine (frontend build)
+- **Runtime Images**:
+  - eclipse-temurin:21-jre-alpine (backend)
+  - nginx:alpine (frontend)
+  - postgres:15-alpine (database)
+
+## Next Steps & Recommendations
+
+### Immediate Priorities (Before November 22, 2025)
+
+1. **README Enhancement** (HIGH PRIORITY - 40 points):
+   - Expand from 25 bytes to maximum 220 lines
+   - Answer 10 required questions
+   - Include architecture diagram (ASCII art)
+   - Add deployment instructions
+   - Document API usage examples
+   - Explain security considerations
+
+2. **Pitch Preparation** (5 points):
+   - 1-3 minutes audio/video
+   - Maximum 25 MB file size
+   - Highlight: AI integration, Docker/K8s deployment, anti-hallucination safeguards
+   - Demo: Show working application (optional)
+
+3. **Code Cleanup**:
+   - Commit untracked documentation files
+   - Review and commit modified application.properties files
+   - Verify .env is not tracked by git
+
+### Production Readiness Enhancements (Post-Deadline)
+
+1. **Security Hardening**:
+   - Implement API key authentication
+   - Add rate limiting (Spring Cloud Gateway or Redis)
+   - Environment-based CORS configuration
+   - HTTPS/TLS termination (Ingress controller)
+   - Security headers (CSP, HSTS, X-Frame-Options)
+
+2. **Observability**:
+   - Structured logging (JSON format)
+   - Metrics collection (Micrometer + Prometheus)
+   - Distributed tracing (Spring Cloud Sleuth)
+   - Centralized logging (ELK stack or Loki)
+
+3. **Scalability**:
+   - Horizontal pod autoscaling (HPA)
+   - Redis for session storage (stateless API Gateway)
+   - Read replicas for PostgreSQL
+   - CDN for frontend static assets
+
+4. **CI/CD Pipeline**:
+   - Automated testing (GitHub Actions / GitLab CI)
+   - Container image scanning (Trivy)
+   - Dependency vulnerability checks (OWASP)
+   - Automated deployment to K8s
+
+5. **Enhanced Features**:
+   - User authentication (OAuth2 / JWT)
+   - Packing list sharing (public links)
+   - PDF export functionality
+   - Multi-language support
+   - Real-time weather API integration
+
 ## Additional Resources
 
 - **Spring Boot Documentation**: https://spring.io/projects/spring-boot
@@ -418,8 +741,12 @@ export OPENAI_API_KEY=sk-actual-key
 - **PostgreSQL**: https://www.postgresql.org/docs/
 - **Docker**: https://docs.docker.com/
 - **Kubernetes**: https://kubernetes.io/docs/
+- **React**: https://react.dev/
+- **Vite**: https://vite.dev/
+- **OpenAI API**: https://platform.openai.com/docs/
 
 ## Contact
 
 - **University Project**: alkurdiz@htw-berlin.de
 - **Security Issues**: [Define for production]
+- **Project Deadline**: November 22, 2025, 23:59:59 Uhr
