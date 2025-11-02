@@ -31,7 +31,12 @@ class AiController(
     private val logger = LoggerFactory.getLogger(AiController::class.java)
 
     /**
-     * Generates a packing list using AI.
+     * Generates a packing list using AI with RAG (Retrieval-Augmented Generation).
+     *
+     * NEW: This method now uses the RAG-enhanced generation pipeline:
+     * - Vector search for expert-verified packing items
+     * - Contextual data (weather, culture tips)
+     * - GPT-4-turbo for final list generation
      *
      * @param request Validated packing request with destination, duration, season, travel type
      * @return Generated packing list with items categorized by type
@@ -44,20 +49,19 @@ class AiController(
         logger.info("Destination: ${request.destination}, Duration: ${request.durationDays} days")
         logger.info("Season: ${request.season}, Travel Type: ${request.travelType}")
 
-        // Generate packing list using AI
+        // Generate packing list using AI with RAG
         var aiResponse: com.smartpacking.ai.model.AiPackingResponse
         var response: PackingResponse
 
         val generationTimeMs = measureTimeMillis {
+            // NEW: Use RAG-enhanced method with PackingRequest
             aiResponse = aiService.generatePackingList(
-                destination = request.destination,
-                durationDays = request.durationDays,
-                season = request.season,
-                travelType = request.travelType,
+                request = request,
                 useFallbackOnError = true // Use fallback for production resilience
             )
 
-            // Gather contextual information
+            // Gather contextual information for response mapping
+            // (Note: AiService already fetched these internally, but we need them for the DTO)
             val weatherInfo = weatherService.getWeatherInfo(request.destination, request.season)
             val cultureTips = cultureService.getCultureTips(request.destination)
             val cultureTipStrings = cultureTips.map { "${it.category}: ${it.tip}" }
