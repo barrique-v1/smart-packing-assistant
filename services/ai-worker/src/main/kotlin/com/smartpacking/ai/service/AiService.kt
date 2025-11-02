@@ -6,6 +6,7 @@ import com.smartpacking.ai.exception.*
 import com.smartpacking.ai.model.AiPackingResponse
 import com.smartpacking.ai.model.PackingCategories
 import com.smartpacking.ai.model.PackingItem
+import com.smartpacking.shared.dto.PackingRequest
 import com.smartpacking.shared.enums.Season
 import com.smartpacking.shared.enums.TravelType
 import org.slf4j.LoggerFactory
@@ -18,26 +19,144 @@ import kotlin.system.measureTimeMillis
  * Core AI service for generating packing lists using Spring AI and OpenAI.
  *
  * This service integrates PromptService with Spring AI's ChatClient to:
+ * - Perform RAG (Retrieval-Augmented Generation) via VectorSearchService
  * - Generate context-aware packing list recommendations
  * - Parse and validate JSON responses
- * - Handle errors with fallback strategies
+ * - Handle errors with fallback strategies (graceful degradation)
  * - Log all interactions for debugging and quality assurance
- * - Track performance metrics
+ * - Track performance metrics (vector search + GPT generation)
  *
+ * Graceful Degradation Strategy:
+ * - If Qdrant is unavailable, falls back to pure GPT generation
+ * - If OpenAI fails, falls back to dummy data (if useFallbackOnError=true)
  */
 @Service
 class AiService(
     private val chatClient: ChatClient,
     private val promptService: PromptService,
-    private val objectMapper: ObjectMapper
+    private val objectMapper: ObjectMapper,
+    private val weatherService: WeatherService,
+    private val cultureService: CultureService,
+    private val vectorSearchService: VectorSearchService
 ) {
     private val logger = LoggerFactory.getLogger(AiService::class.java)
 
     /**
-     * Generates a packing list using OpenAI based on trip parameters.
+     * NEW: RAG-enhanced packing list generation with PackingRequest.
+     *
+     * This method implements the full RAG (Retrieval-Augmented Generation) pipeline:
+     * 1. Search vector database for expert-verified packing items
+     * 2. Fetch contextual data (weather, culture tips)
+     * 3. Build enhanced prompt with retrieved items
+     * 4. Call GPT for contextualization and formatting
+     * 5. Parse and validate response
+     *
+     * Graceful degradation:
+     * - If Qdrant fails → empty retrievedItems → pure GPT generation
+     * - If OpenAI fails → dummy data fallback (if useFallbackOnError=true)
+     *
+     * @param request Packing request with trip details
+     * @param useFallbackOnError If true, returns dummy data on error; if false, throws exception
+     * @return Parsed and validated packing list response with RAG metadata
+     */
+    fun generatePackingList(request: PackingRequest, useFallbackOnError: Boolean = true): AiPackingResponse {
+        val startTime = System.currentTimeMillis()
+        logger.info("=== Starting RAG-enhanced packing list generation ===")
+        logger.info("Destination: ${request.destination}, Duration: ${request.durationDays} days, " +
+                "Season: ${request.season}, Type: ${request.travelType}")
+
+        try {
+            // Step 1: NEW - Search vector database for relevant items
+            val vectorSearchStart = System.currentTimeMillis()
+            val retrievedItems = vectorSearchService.searchRelevantItems(request)
+            val vectorSearchDuration = System.currentTimeMillis() - vectorSearchStart
+
+            if (retrievedItems.isNotEmpty()) {
+                logger.info("✓ Vector search completed in ${vectorSearchDuration}ms - found ${retrievedItems.size} items")
+                logger.info("Top items: ${retrievedItems.take(3).map { it.item }}")
+            } else {
+                logger.warn("⚠️ Vector search returned no items (${vectorSearchDuration}ms) - falling back to pure GPT")
+            }
+
+            // Step 2: Get contextual data (weather, culture)
+            val weatherInfo = weatherService.getWeatherInfo(request.destination, request.season)
+            val cultureTips = cultureService.getCultureTips(request.destination)
+
+            logger.debug("Context: Weather=${weatherInfo != null}, Culture tips=${cultureTips.size}")
+
+            // Step 3: Build enhanced prompt with retrieved items
+            val prompt = promptService.buildPrompt(
+                request = request,
+                weatherInfo = weatherInfo,
+                cultureTips = cultureTips,
+                retrievedItems = retrievedItems
+            )
+
+            logger.debug("Prompt built: ${prompt.length} characters")
+
+            // Step 4: Call GPT (now for contextualization/formatting, not pure generation)
+            val gptStart = System.currentTimeMillis()
+            val chatResponse = chatClient.prompt()
+                .user(prompt)
+                .call()
+                .content()
+            val gptDuration = System.currentTimeMillis() - gptStart
+
+            if (chatResponse.isNullOrBlank()) {
+                throw ServiceUnavailableException("OpenAI returned null or empty response")
+            }
+
+            logger.info("✓ GPT call completed in ${gptDuration}ms")
+
+            // Step 5: Parse and validate response
+            val packingResponse = parseAndValidateResponse(chatResponse)
+
+            val totalDuration = System.currentTimeMillis() - startTime
+
+            // Log comprehensive statistics
+            logger.info("=== Generation Statistics ===")
+            logger.info("Total time: ${totalDuration}ms")
+            logger.info("  - Vector search: ${vectorSearchDuration}ms")
+            logger.info("  - GPT generation: ${gptDuration}ms")
+            logger.info("  - Other (context + parsing): ${totalDuration - vectorSearchDuration - gptDuration}ms")
+            logger.info("Retrieved items: ${retrievedItems.size}")
+            logger.info("Final item count: ${packingResponse.categories.getTotalItemCount()}")
+            logger.info("Final quantity: ${packingResponse.categories.getTotalQuantity()}")
+            logger.info("============================")
+
+            logger.info("✓ RAG-enhanced packing list generated successfully")
+
+            return packingResponse
+
+        } catch (e: AiServiceException) {
+            logger.error("✗ AI service error: ${e.message}", e)
+
+            if (useFallbackOnError) {
+                logger.warn("⚠️ Falling back to dummy data due to error")
+                return generateFallbackResponse(request.destination, request.durationDays, request.season, request.travelType)
+            } else {
+                throw e
+            }
+
+        } catch (e: Exception) {
+            logger.error("✗ Unexpected error during packing list generation", e)
+
+            if (useFallbackOnError) {
+                logger.warn("⚠️ Falling back to dummy data due to unexpected error")
+                return generateFallbackResponse(request.destination, request.durationDays, request.season, request.travelType)
+            } else {
+                throw AiServiceException("Unexpected error: ${e.message}", e)
+            }
+        }
+    }
+
+    /**
+     * DEPRECATED: Legacy packing list generation without RAG support.
+     *
+     * Use generatePackingList(PackingRequest, useFallbackOnError) instead for RAG enhancement.
      *
      * This method:
-     * 1. Builds a comprehensive prompt using PromptService
+     * 1. Builds a comprehensive prompt using PromptService (deprecated method)
      * 2. Sends the prompt to OpenAI via ChatClient
      * 3. Parses and validates the JSON response
      * 4. Handles errors with fallback to dummy data if necessary
@@ -51,6 +170,7 @@ class AiService(
      * @return Parsed and validated packing list response
      * @throws AiServiceException if API call fails and useFallbackOnError is false
      */
+    @Deprecated("Use generatePackingList(PackingRequest) for RAG support")
     fun generatePackingList(
         destination: String,
         durationDays: Int,
