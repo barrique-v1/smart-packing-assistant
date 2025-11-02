@@ -67,7 +67,7 @@ sondern Prompts dynamisch mit Wetter- und Kulturdaten anreichert, ein Ansatz, de
 Der konkrete Nutzen zeigt sich vor allem im Zeitersparnis für die Nutzer:innen, Packlisten werden generiert und müssen 
 nicht mehr selbst erstellt werden,
 das führt zu Stressreduktion und Kosteneinsparungen durch Vermeidung vergessener Gegenstände.
-Langfristig kann das System in Reise-Plattformen integriert werden und vielen Nutzer:innen bei der Erstellung von 
+Das System kann in Reise-Plattformen integriert werden und vielen Nutzer:innen bei der Erstellung von 
 Packlisten unterstützen.
 
 ## 8. Technische Exzellenz : Welche Technologien, Daten oder Algorithmen werden genutzt?
@@ -207,7 +207,3 @@ smart-packing-assistant/
 - **DOCKER_GUIDE.md** - Docker Deployment Details
 - **KUBERNETES_DD_GUIDE.md** - Kubernetes Deployment & Debugging
 - **API_DOCUMENTATION.md** - AI Worker API Reference
-
-## Kontakt
-
-**HTW Berlin** | **Dozent:** alkurdiz@htw-berlin.de | **Abgabe:** 22. November 2025, 23:59:59 Uhr
