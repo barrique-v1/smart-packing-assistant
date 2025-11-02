@@ -21,7 +21,31 @@ services:
       retries: 5
       start_period: 10s
 
+  # Qdrant Vector Database
+  qdrant:
+    image: qdrant/qdrant:v1.7.4
+    container_name: packing-qdrant
+    restart: unless-stopped
+    ports:
+      - "6333:6333"  # HTTP API
+      - "6334:6334"  # gRPC (optional)
+    volumes:
+      - qdrant-data:/qdrant/storage
+    networks:
+      - packing-network
+    environment:
+      QDRANT__SERVICE__HTTP_PORT: 6333
+      QDRANT__SERVICE__GRPC_PORT: 6334
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:6333/healthz || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+
   # AI Worker Service
+  # Note: AI Worker can optionally use Qdrant for RAG (Retrieval-Augmented Generation)
+  # If Qdrant is unavailable, it gracefully falls back to pure GPT generation
   ai-worker:
     build:
       context: .
@@ -100,6 +124,8 @@ services:
 # Named volumes for data persistence
 volumes:
   postgres-data:
+    driver: local
+  qdrant-data:
     driver: local
 
 # Custom network for service discovery
