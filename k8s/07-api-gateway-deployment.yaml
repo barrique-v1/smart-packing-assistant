@@ -24,7 +24,7 @@ spec:
           command: ['sh', '-c', 'until nslookup postgres.packing-assistant.svc.cluster.local; do echo waiting for postgres; sleep 2; done']
         # Wait for AI Worker to be ready
         - name: wait-for-ai-worker
-          image: busybox:1.36
+          image: busybox:latest
           command: ['sh', '-c', 'until nslookup ai-worker.packing-assistant.svc.cluster.local; do echo waiting for ai-worker; sleep 2; done']
       containers:
         - name: api-gateway

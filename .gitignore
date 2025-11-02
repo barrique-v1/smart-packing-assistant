@@ -69,7 +69,8 @@ temp/
 *.cache
 docs/smartpacking/explanation/
 docs/smartpacking/lecture/
-
+data/packing-embeddings.json
+.claude/
 
 # Secrets and credentials
 *.key
