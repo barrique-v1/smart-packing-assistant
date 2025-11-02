@@ -27,7 +27,13 @@
       "Bash(npm install:*)",
       "Bash(npm run build:*)",
       "Bash(find:*)",
-      "Bash(../../gradlew build:*)"
+      "Bash(../../gradlew build:*)",
+      "Bash(lsof:*)",
+      "Bash(source .env)",
+      "Bash(python3:*)",
+      "Bash(pip3 install:*)",
+      "Bash(export:*)",
+      "Bash(kill:*)"
     ],
     "deny": [],
     "ask": []

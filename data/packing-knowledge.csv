@@ -1,0 +1,141 @@
+item,category,destination_type,travel_type,season,quantity,reason,importance,tags,climate
+Passport,documents,international,all,all,1,Required for international travel and border crossing,critical,travel-document;identification;required,all
+Travel Insurance Documents,documents,international,all,all,1,Essential for medical emergencies and trip cancellations abroad,high,insurance;emergency;safety,all
+Visa Documentation,documents,international,all,all,1,Required for entry to certain countries,critical,travel-document;legal;required,all
+Driver's License,documents,all,all,all,1,Needed for car rentals and additional ID,medium,identification;rental;optional,all
+Health Insurance Card,documents,all,all,all,1,Medical coverage documentation,high,health;insurance;emergency,all
+Vaccination Certificate,documents,international,all,all,1,Required proof of vaccinations for certain destinations,high,health;medical;required,tropical;developing
+Emergency Contact List,documents,all,all,all,1,Important phone numbers and addresses,medium,safety;emergency;contact,all
+Credit Cards,documents,all,all,all,2,Primary payment method with fraud protection,critical,payment;finance;essential,all
+Debit Card,documents,all,all,all,1,ATM access for local currency,high,payment;cash;banking,all
+Cash (Local Currency),other,all,all,all,1,Small bills for immediate expenses and tips,high,payment;cash;emergency,all
+Phone Charger,tech,all,all,all,1,Essential for device charging and communication,critical,electronics;charging;required,all
+Universal Power Adapter,tech,international,all,all,1,Plug compatibility for different countries,critical,electronics;charging;adapter,all
+Portable Power Bank,tech,all,all,all,1,Backup charging for mobile devices,high,electronics;charging;backup,all
+Laptop,tech,all,BUSINESS,all,1,Essential for work and presentations,critical,work;electronics;productivity,all
+Laptop Charger,tech,all,BUSINESS,all,1,Power supply for laptop,critical,electronics;charging;required,all
+USB-C Cable,tech,all,all,all,1,Versatile charging and data transfer,medium,electronics;charging;cable,all
+Headphones,tech,all,all,all,1,Entertainment and calls during travel,medium,entertainment;audio;comfort,all
+E-reader or Tablet,tech,all,VACATION,all,1,Entertainment and reading material,low,entertainment;reading;leisure,all
+Camera,tech,all,VACATION,all,1,Capture memories and special moments,medium,photography;memories;entertainment,all
+Camera SD Cards,tech,all,VACATION,all,2,Additional storage for photos,medium,photography;storage;backup,all
+Toothbrush,hygiene,all,all,all,1,Daily oral hygiene essential,critical,hygiene;dental;required,all
+Toothpaste,hygiene,all,all,all,1,Daily oral hygiene essential,critical,hygiene;dental;required,all
+Deodorant,hygiene,all,all,all,1,Personal hygiene and freshness,high,hygiene;personal;essential,all
+Shampoo,hygiene,all,all,all,1,Hair washing essential,medium,hygiene;hair;shower,all
+Conditioner,hygiene,all,all,all,1,Hair care for longer trips,low,hygiene;hair;optional,all
+Body Soap,hygiene,all,all,all,1,Body washing essential,medium,hygiene;shower;essential,all
+Face Wash,hygiene,all,all,all,1,Facial hygiene,medium,hygiene;skincare;face,all
+Moisturizer,hygiene,all,all,all,1,Skin hydration especially in dry climates,medium,skincare;hydration;comfort,all
+Razor,hygiene,all,all,all,1,Personal grooming,low,hygiene;grooming;optional,all
+Shaving Cream,hygiene,all,all,all,1,Shaving comfort,low,hygiene;grooming;optional,all
+Nail Clippers,hygiene,all,all,all,1,Nail care during longer trips,low,hygiene;grooming;tools,all
+Hair Brush or Comb,hygiene,all,all,all,1,Hair care and styling,medium,hygiene;grooming;hair,all
+Feminine Hygiene Products,hygiene,all,all,all,10,Essential personal care items,high,hygiene;personal;health,all
+Prescription Medications,hygiene,all,all,all,1,Critical health maintenance,critical,health;medical;required,all
+Pain Relievers,hygiene,all,all,all,1,Common ailment relief,high,health;medical;first-aid,all
+Antihistamines,hygiene,all,all,all,1,Allergy relief,medium,health;medical;allergy,all
+Motion Sickness Pills,hygiene,all,all,all,1,Prevent travel sickness,medium,health;medical;travel,all
+Band-Aids,hygiene,all,all,all,10,Minor injury treatment,medium,first-aid;medical;emergency,all
+Hand Sanitizer,hygiene,all,all,all,1,Hygiene when soap unavailable,high,hygiene;health;sanitizer,all
+Tissues,hygiene,all,all,all,1,Personal hygiene and comfort,medium,hygiene;comfort;disposable,all
+Sunscreen SPF 30+,other,all,all,"SPRING,SUMMER,FALL",1,UV protection for skin health,high,sun-protection;skincare;health,hot;tropical;sunny
+Lip Balm with SPF,other,all,all,all,1,Lip protection from sun and wind,medium,sun-protection;skincare;comfort,all
+Insect Repellent,other,tropical,all,"SPRING,SUMMER",1,Protection from mosquitoes and bugs,high,health;protection;tropical,tropical;humid
+Sunglasses,other,all,all,"SPRING,SUMMER,FALL",1,Eye protection from UV rays,high,sun-protection;eyewear;comfort,sunny;bright
+Umbrella,other,all,all,"SPRING,FALL",1,Rain protection and sun shade,medium,weather;rain;protection,rainy;variable
+Rain Jacket,clothing,all,all,"SPRING,FALL",1,Waterproof protection from rain,high,weather;rain;outerwear,rainy;variable
+Lightweight Rain Poncho,clothing,tropical,BACKPACKING,"SPRING,SUMMER,FALL",1,Compact rain protection,medium,weather;rain;lightweight,rainy;tropical
+Reusable Water Bottle,other,all,all,all,1,Hydration and reduce plastic waste,high,hydration;eco-friendly;essential,all
+Travel Towel,other,all,BACKPACKING,all,1,Quick-dry compact towel,medium,hygiene;beach;sports,all
+Laundry Detergent Sheets,other,all,all,all,1,Clothing washing for extended trips,low,hygiene;laundry;long-trip,all
+Clothesline,other,all,BACKPACKING,all,1,Air-dry clothes,low,laundry;camping;budget,all
+Ziplock Bags,other,all,all,all,5,Organization and liquid protection,medium,organization;protection;travel,all
+Packing Cubes,other,all,all,all,4,Luggage organization and compression,medium,organization;packing;efficiency,all
+Travel Pillow,other,all,all,all,1,Comfort during long flights,medium,comfort;sleep;travel,all
+Eye Mask,other,all,all,all,1,Better sleep on flights and bright rooms,low,sleep;comfort;travel,all
+Earplugs,other,all,all,all,2,Noise reduction for better sleep,low,sleep;comfort;noise,all
+Business Suit,clothing,urban,BUSINESS,all,2,Professional appearance for meetings,critical,work;formal;professional,all
+Dress Shirts,clothing,urban,BUSINESS,all,5,Formal work attire,critical,work;formal;professional,all
+Dress Pants,clothing,urban,BUSINESS,all,3,Professional lower wear,critical,work;formal;professional,all
+Formal Shoes,clothing,urban,BUSINESS,all,2,Professional footwear,critical,work;formal;shoes,all
+Belt,clothing,all,BUSINESS,all,1,Professional accessory,high,work;accessory;formal,all
+Tie,clothing,urban,BUSINESS,all,3,Formal business accessory,high,work;formal;accessory,all
+Briefcase or Laptop Bag,other,urban,BUSINESS,all,1,Professional work bag,high,work;bag;organization,all
+Business Cards,documents,urban,BUSINESS,all,20,Professional networking,high,work;networking;contact,all
+Presentation Materials,documents,urban,BUSINESS,all,1,Meeting and conference materials,high,work;meeting;documents,all
+Portfolio or Notebook,other,urban,BUSINESS,all,1,Note-taking and document organization,medium,work;notes;organization,all
+Underwear,clothing,all,all,all,7,Daily essential undergarment,critical,clothing;essential;personal,all
+Socks,clothing,all,all,all,7,Daily foot hygiene and comfort,critical,clothing;essential;footwear,all
+Casual T-Shirts,clothing,all,VACATION,all,5,Comfortable everyday wear,high,clothing;casual;comfort,all
+Casual Pants,clothing,all,VACATION,all,3,Comfortable everyday wear,high,clothing;casual;comfort,all
+Shorts,clothing,all,all,"SPRING,SUMMER",3,Hot weather casual wear,high,clothing;casual;summer,hot;tropical;warm
+Jeans,clothing,all,all,"SPRING,FALL,WINTER",2,Versatile casual pants,high,clothing;casual;versatile,all
+Comfortable Walking Shoes,clothing,all,all,all,1,Essential for sightseeing and daily walking,critical,footwear;comfort;essential,all
+Sandals or Flip-Flops,clothing,beach,all,"SPRING,SUMMER",1,Beach and hot weather footwear,medium,footwear;beach;casual,hot;tropical;beach
+Sleepwear,clothing,all,all,all,2,Comfortable sleep clothing,medium,clothing;sleep;comfort,all
+Light Jacket,clothing,all,all,"SPRING,FALL",1,Layering for variable temperatures,high,clothing;outerwear;layers,cool;variable
+Sweater or Hoodie,clothing,all,all,"SPRING,FALL,WINTER",2,Warm layer for cool weather,high,clothing;layers;warmth,cool;cold;variable
+Winter Coat,clothing,all,all,WINTER,1,Insulation for cold weather,critical,clothing;outerwear;winter,cold;freezing;snow
+Thermal Underwear,clothing,mountain,all,WINTER,2,Base layer for extreme cold,high,clothing;layers;winter;thermal,cold;freezing;arctic
+Warm Hat,clothing,all,all,WINTER,1,Head warmth in cold weather,high,clothing;winter;accessory,cold;freezing;windy
+Gloves,clothing,all,all,WINTER,1,Hand protection from cold,high,clothing;winter;accessory,cold;freezing;snow
+Scarf,clothing,all,all,WINTER,1,Neck warmth and wind protection,high,clothing;winter;accessory,cold;windy;freezing
+Warm Socks,clothing,all,all,WINTER,5,Foot warmth in cold weather,high,clothing;winter;footwear,cold;freezing;snow
+Winter Boots,clothing,mountain,all,WINTER,1,Waterproof insulated footwear,critical,footwear;winter;protection,cold;snow;wet
+Hiking Boots,clothing,mountain,BACKPACKING,all,1,Ankle support and trail protection,critical,footwear;hiking;outdoor,mountain;trail;outdoor
+Hiking Pants,clothing,mountain,BACKPACKING,all,2,Durable trail wear,high,clothing;hiking;outdoor,mountain;trail;outdoor
+Moisture-Wicking Shirts,clothing,mountain,BACKPACKING,all,3,Quick-dry active wear,high,clothing;sports;technical,outdoor;active;hot
+Fleece Jacket,clothing,mountain,BACKPACKING,"SPRING,FALL,WINTER",1,Warm insulation layer,high,clothing;layers;outdoor,cool;cold;mountain
+Waterproof Jacket,clothing,mountain,BACKPACKING,all,1,Rain and wind protection,critical,clothing;outerwear;protection,rainy;windy;mountain
+Backpack (40-65L),other,all,BACKPACKING,all,1,Main luggage for gear,critical,bag;storage;hiking,outdoor;travel;backpacking
+Daypack (20-30L),other,all,BACKPACKING,all,1,Day trips and excursions,high,bag;hiking;daily,outdoor;excursion;day-trip
+Trekking Poles,other,mountain,BACKPACKING,all,2,Stability and knee protection,medium,hiking;equipment;support,mountain;trail;steep
+First Aid Kit,other,all,BACKPACKING,all,1,Emergency medical supplies,high,health;medical;emergency,outdoor;remote;safety
+Emergency Whistle,other,mountain,BACKPACKING,all,1,Safety signal device,low,safety;emergency;signal,mountain;remote;outdoor
+Headlamp,other,mountain,BACKPACKING,all,1,Hands-free lighting,high,lighting;camping;safety,outdoor;dark;camping
+Multi-Tool,other,all,BACKPACKING,all,1,Versatile tool for repairs,medium,tools;repair;utility,outdoor;camping;emergency
+Water Purification Tablets,other,mountain,BACKPACKING,all,10,Safe drinking water,high,health;hydration;safety,outdoor;remote;backcountry
+Map and Compass,other,mountain,BACKPACKING,all,1,Navigation without electronics,medium,navigation;safety;backup,mountain;remote;hiking
+Sleeping Bag,other,mountain,BACKPACKING,all,1,Essential for camping,critical,camping;sleep;outdoor,outdoor;camping;cold
+Camping Mat,other,mountain,BACKPACKING,all,1,Insulation and sleeping comfort,high,camping;sleep;comfort,outdoor;camping;ground
+Tent,other,mountain,BACKPACKING,all,1,Shelter from elements,critical,camping;shelter;protection,outdoor;camping;weather
+Swimsuit,clothing,beach,VACATION,"SPRING,SUMMER",2,Beach and pool activities,high,beach;swim;water,beach;tropical;pool
+Beach Towel,other,beach,VACATION,"SPRING,SUMMER",1,Beach and pool essential,high,beach;swim;comfort,beach;pool;tropical
+Snorkel Gear,other,beach,VACATION,SUMMER,1,Underwater exploration,low,beach;water;sports,tropical;beach;ocean
+Rash Guard,clothing,beach,VACATION,"SPRING,SUMMER",1,UV and abrasion protection for water,medium,beach;swim;protection,tropical;beach;sunny
+Sarong or Cover-Up,clothing,beach,VACATION,"SPRING,SUMMER",1,Beach modesty and sun protection,low,beach;accessory;cover,tropical;beach;cultural
+Travel Guidebook,other,all,VACATION,all,1,Destination information and tips,low,information;planning;culture,tourist;sightseeing;cultural
+Phrasebook,other,international,all,all,1,Language assistance,low,language;communication;cultural,international;foreign;cultural
+Adapter for Electronics,tech,international,all,all,1,Electronic device compatibility,critical,electronics;charging;adapter,international;foreign
+Travel Alarm Clock,other,all,all,all,1,Backup to phone alarm,low,time;utility;backup,all
+Combination Lock,other,all,BACKPACKING,all,2,Secure belongings in hostels,medium,security;safety;hostel,hostel;budget;shared
+Money Belt,other,all,all,all,1,Secure valuable storage,medium,security;money;safety,tourist;crowded;theft-risk
+Dry Bag,other,beach,BACKPACKING,"SPRING,SUMMER",1,Waterproof gear protection,medium,protection;water;storage,beach;water;rainy
+Duct Tape,other,all,BACKPACKING,all,1,Emergency repairs,low,repair;tools;emergency,outdoor;camping;repair
+Sewing Kit,other,all,all,all,1,Clothing repairs,low,repair;clothing;tools,long-trip;travel;emergency
+Travel-Size Detergent,other,all,all,all,1,Hand wash clothes,low,laundry;hygiene;long-trip,budget;backpacking;long-trip
+Microfiber Towel,other,all,BACKPACKING,all,1,Quick-dry compact towel,medium,hygiene;travel;lightweight,backpacking;camping;travel
+Hand Warmers,other,all,all,WINTER,5,Instant warmth for hands,medium,winter;warmth;comfort,cold;freezing;outdoor
+Avalanche Beacon,other,mountain,BACKPACKING,WINTER,1,Critical safety device for backcountry skiing,critical,safety;winter;avalanche,mountain;snow;backcountry
+Crampons,other,mountain,BACKPACKING,WINTER,1,Ice traction for hiking,high,hiking;winter;safety,mountain;ice;snow
+Ice Axe,other,mountain,BACKPACKING,WINTER,1,Self-arrest and stability on ice,high,hiking;winter;safety,mountain;ice;steep
+Balaclava,clothing,mountain,BACKPACKING,WINTER,1,Full face protection from cold,high,winter;face;protection,cold;freezing;windy
+Ski Goggles,clothing,mountain,all,WINTER,1,Eye protection from snow and wind,high,winter;eyewear;skiing,snow;mountain;windy
+Down Jacket,clothing,mountain,all,WINTER,1,Lightweight insulation for extreme cold,high,winter;layers;packable,cold;freezing;mountain
+Gaiters,clothing,mountain,BACKPACKING,"SPRING,FALL,WINTER",1,Leg and boot protection from mud and snow,medium,hiking;protection;weather,mountain;snow;muddy
+Water Bladder,other,mountain,BACKPACKING,"SPRING,SUMMER",1,Hands-free hydration system,medium,hydration;hiking;convenience,outdoor;hiking;active
+GPS Device,tech,mountain,BACKPACKING,all,1,Reliable navigation tool,high,navigation;safety;technology,mountain;remote;backcountry
+Emergency Satellite Phone,tech,mountain,BACKPACKING,all,1,Communication in remote areas,medium,communication;emergency;safety,remote;mountain;backcountry
+Lightweight Camping Stove,other,mountain,BACKPACKING,all,1,Cooking gear for camping,high,camping;cooking;food,outdoor;camping;backcountry
+Cooking Pot Set,other,mountain,BACKPACKING,all,1,Camping cookware,medium,camping;cooking;utensils,outdoor;camping;backcountry
+Spork or Utensil Set,other,mountain,BACKPACKING,all,1,Eating utensils,medium,camping;eating;tools,outdoor;camping;travel
+Biodegradable Soap,other,mountain,BACKPACKING,all,1,Environmentally friendly cleaning,low,hygiene;eco-friendly;camping,outdoor;camping;eco
+Bear Canister,other,mountain,BACKPACKING,"SPRING,SUMMER,FALL",1,Food storage in bear country,critical,safety;camping;wildlife,mountain;bear-country;camping
+Mosquito Net,other,tropical,BACKPACKING,"SPRING,SUMMER",1,Malaria prevention in tropical areas,high,health;protection;sleep,tropical;mosquito;humid
+Quick-Dry Towel,other,tropical,BACKPACKING,all,1,Fast-drying hygiene essential,medium,hygiene;travel;tropical,tropical;humid;beach
+Lightweight Long Pants,clothing,tropical,all,"SPRING,SUMMER",2,Sun and insect protection,medium,clothing;protection;tropical,tropical;hot;sunny
+Long-Sleeve Shirt,clothing,tropical,all,"SPRING,SUMMER",2,Sun and insect protection,medium,clothing;protection;tropical,tropical;hot;sunny
+Wide-Brimmed Hat,clothing,all,VACATION,"SPRING,SUMMER",1,Sun protection for face and neck,high,sun-protection;hat;comfort,hot;sunny;tropical
+Compression Socks,clothing,all,all,all,2,Circulation during long flights,medium,health;comfort;flight,flight;long-haul;health
+Neck Wallet,other,all,all,all,1,Secure document storage while traveling,medium,security;documents;travel,tourist;crowded;safety

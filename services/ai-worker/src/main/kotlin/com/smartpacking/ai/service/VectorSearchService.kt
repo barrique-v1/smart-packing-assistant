@@ -1,5 +1,6 @@
 package com.smartpacking.ai.service
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.smartpacking.shared.dto.PackingRequest
 import org.slf4j.LoggerFactory
 import org.springframework.ai.embedding.EmbeddingModel
@@ -12,10 +13,10 @@ import org.springframework.web.client.RestTemplate
 data class QdrantSearchRequest(
     val vector: List<Float>,
     val limit: Int,
-    val scoreThreshold: Double? = null,
+    @JsonProperty("score_threshold") val scoreThreshold: Double? = null,
     val filter: QdrantFilter? = null,
-    val withPayload: Boolean = true,
-    val withVector: Boolean = false
+    @JsonProperty("with_payload") val withPayload: Boolean = true,
+    @JsonProperty("with_vector") val withVector: Boolean = false
 )
 
 data class QdrantFilter(
@@ -206,23 +207,23 @@ class VectorSearchService(
      * Build Qdrant filter based on request parameters.
      *
      * Filters:
-     * - travel_type: Exact match (BUSINESS/VACATION/BACKPACKING)
-     * - season: Array contains (requested season OR "all" for universal items)
+     * - travel_type: Match requested type OR "all" (universal items)
+     * - season: Array contains requested season OR "all" (universal items)
      *
-     * These filters ensure retrieved items are contextually appropriate.
+     * These filters ensure retrieved items are contextually appropriate while including universal items.
      */
     private fun buildFilter(request: PackingRequest): QdrantFilter {
         val conditions = mutableListOf<QdrantCondition>()
 
-        // Filter by travel type (exact match)
+        // Filter by travel type (match specific type OR "all")
         conditions.add(
             QdrantCondition(
                 key = "travel_type",
-                match = QdrantMatch(value = request.travelType.toString())
+                match = QdrantMatch(any = listOf(request.travelType.toString(), "all"))
             )
         )
 
-        // Filter by season (array contains)
+        // Filter by season (array contains requested season OR "all")
         conditions.add(
             QdrantCondition(
                 key = "season",
