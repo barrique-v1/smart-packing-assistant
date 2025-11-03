@@ -172,7 +172,8 @@ function App() {
 
       <footer className="app-footer">
         <p>
-          Smart Packing Assistant by Marcel Ratsch & Norman Peters
+          Smart Packing Assistant <br/>
+            by Marcel Ratsch & Norman Peters
         </p>
       </footer>
     </div>

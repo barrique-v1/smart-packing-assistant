@@ -41,28 +41,23 @@ export default function PackingList({ packingList }: PackingListProps) {
         <h2>Packing List for {packingList.destination}</h2>
       </div>
 
-      {/* Weather Info */}
-      {packingList.weatherInfo && (
-        <div className="info-section weather-info">
-          <h3>Weather Information</h3>
-          <p>
-            <strong>Temperature:</strong> {packingList.weatherInfo.tempMin}°C -{' '}
-            {packingList.weatherInfo.tempMax}°C
-          </p>
-          <p>
-            <strong>Conditions:</strong> {packingList.weatherInfo.conditions}
-          </p>
-        </div>
-      )}
-
       {/* Culture Tips */}
       {packingList.cultureTips && packingList.cultureTips.length > 0 && (
         <div className="info-section culture-tips">
-          <h3>Culture Tips</h3>
-          <ul>
-            {packingList.cultureTips.map((tip, index) => (
-              <li key={index}>{tip}</li>
-            ))}
+          <h3>🌍 Cultural Tips & Local Customs</h3>
+          <ul className="culture-tips-list">
+            {packingList.cultureTips.map((tip, index) => {
+              // Parse tip format: "CATEGORY: Tip text"
+              const [category, ...textParts] = tip.split(':');
+              const text = textParts.join(':').trim();
+
+              return (
+                <li key={index} className="culture-tip-item">
+                  <span className="tip-category">{category}</span>
+                  <span className="tip-text">{text}</span>
+                </li>
+              );
+            })}
           </ul>
         </div>
       )}

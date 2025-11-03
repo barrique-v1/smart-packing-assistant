@@ -243,14 +243,43 @@
   color: #4b5563;
 }
 
-.culture-tips ul {
+/* Culture Tips Styling */
+.culture-tips-list {
   margin: 0.5rem 0 0 0;
-  padding-left: 1.5rem;
+  padding: 0;
+  list-style: none;
 }
 
-.culture-tips li {
-  margin: 0.5rem 0;
-  color: #4b5563;
+.culture-tip-item {
+  display: flex;
+  align-items: flex-start;
+  margin: 0.75rem 0;
+  padding: 0.75rem;
+  background: white;
+  border-radius: 6px;
+  border-left: 3px solid #10b981;
+}
+
+.tip-category {
+  display: inline-block;
+  background: #10b981;
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-right: 0.75rem;
+  min-width: 100px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.tip-text {
+  color: #374151;
+  line-height: 1.5;
+  flex: 1;
 }
 
 /* Category Sections */

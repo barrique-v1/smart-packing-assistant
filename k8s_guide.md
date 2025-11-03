@@ -171,6 +171,13 @@ kubectl apply -f k8s/08-api-gateway-service.yaml
 
 # Wait for API Gateway to be ready
 kubectl wait --for=condition=ready pod -l app=api-gateway -n packing-assistant --timeout=120s
+
+# 6. Deploy Frontend
+kubectl apply -f k8s/09-frontend-deployment.yaml
+kubectl apply -f k8s/10-frontend-service.yaml
+
+# Wait for Frontend to be ready
+kubectl wait --for=condition=ready pod -l app=frontend -n packing-assistant --timeout=120s
 ```
 
 ### 6. Import RAG Knowledge Base to Qdrant
@@ -238,6 +245,7 @@ kubectl get pods -n packing-assistant
 # qdrant-xxx                     1/1     Running   0          2m
 # ai-worker-xxx                  1/1     Running   0          2m
 # api-gateway-xxx                1/1     Running   0          1m
+# frontend-xxx                   1/1     Running   0          1m
 ```
 
 ```bash
@@ -250,13 +258,19 @@ kubectl get services -n packing-assistant
 # qdrant        ClusterIP   10.96.x.x       <none>        6333/TCP         2m
 # ai-worker     ClusterIP   10.96.x.x       <none>        8081/TCP         2m
 # api-gateway   NodePort    10.96.x.x       <none>        8080:30080/TCP   1m
+# frontend      NodePort    10.96.x.x       <none>        80:30081/TCP     1m
 ```
 
 ### 8. Access and Test the Application
 
-**Set up port forwarding**:
+**Set up port forwarding** (macOS):
 ```bash
-# API Gateway (required)
+# Frontend (when you want to access the UI)
+kubectl port-forward -n packing-assistant service/frontend 5173:80
+```
+
+```bash
+# API Gateway (for testing API endpoints)
 kubectl port-forward -n packing-assistant service/api-gateway 8080:8080
 ```
 
@@ -293,22 +307,10 @@ curl -X POST http://localhost:8080/api/packing/generate \
   }' | jq '.'
 ```
 
-**Expected**: JSON response with categorized packing items including beach/vacation items like:
-- Swimsuit, Shorts, Beach Towel
-- Sunscreen, Sunglasses, Wide-Brimmed Hat
-- Camera, Travel Guidebook
-- Plus weather info and culture tips for Tokyo
-
 **Verify RAG is working** - Check AI Worker logs:
 ```bash
 kubectl logs -n packing-assistant deployment/ai-worker --tail=30 | grep "Retrieved items"
-
-# Expected output showing RAG retrieval:
-# ✓ Vector search completed in 442ms - found 20 items
-# Retrieved items: 20, Weather: true, Culture tips: 3
 ```
-
-If you see "Retrieved items: 20", **RAG is working!** The AI is using the curated knowledge base.
 
 **Test Business Trip** (New York Winter Business):
 ```bash
@@ -419,6 +421,14 @@ The RAG (Retrieval-Augmented Generation) pipeline enhances AI responses:
 
 ## Common Commands
 
+### Update Kubernetes Pods
+
+```bash
+  docker compose build && kubectl rollout restart deployment --all -n
+  packing-assistant
+```
+
+
 ### Deployment Management
 
 ```bash
@@ -467,6 +477,9 @@ kubectl exec -it deployment/qdrant -n packing-assistant -- /bin/sh
 ### Port Forwarding
 
 ```bash
+# Frontend (access UI)
+kubectl port-forward -n packing-assistant service/frontend 5173:5173
+
 # API Gateway (required for testing)
 kubectl port-forward -n packing-assistant service/api-gateway 8080:8080
 
@@ -863,7 +876,7 @@ pkill -f "port-forward.*packing-assistant"
 
 ## Cleanup
 
-### Option 1: Delete All Resources (Keep Cluster)
+Delete All Resources (Keep Cluster)
 
 ```bash
 # Delete namespace (removes all resources)
@@ -871,33 +884,4 @@ kubectl delete namespace packing-assistant
 
 # Verify deletion
 kubectl get namespaces
-```
-
-### Option 2: Delete Specific Components
-
-```bash
-# Delete deployments only (keep data)
-kubectl delete deployment --all -n packing-assistant
-
-# Delete just Qdrant (to reimport embeddings)
-kubectl delete deployment qdrant -n packing-assistant
-kubectl delete pvc qdrant-pvc -n packing-assistant
-
-# Redeploy Qdrant
-kubectl apply -f k8s/11-qdrant-pvc.yaml
-kubectl apply -f k8s/12-qdrant-deployment.yaml
-kubectl apply -f k8s/13-qdrant-service.yaml
-
-# Reimport embeddings
-kubectl port-forward -n packing-assistant service/qdrant 6333:6333 &
-python3 scripts/import-to-qdrant.py --recreate
-```
-
-### Option 3: Reset Kubernetes
-
-```bash
-# Via Docker Desktop UI:
-# Settings → Kubernetes → Reset Kubernetes Cluster → Reset
-
-# This deletes everything including PVCs
 ```
