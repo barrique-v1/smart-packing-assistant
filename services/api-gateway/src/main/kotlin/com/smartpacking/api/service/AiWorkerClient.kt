@@ -1,5 +1,6 @@
 package com.smartpacking.api.service
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.smartpacking.api.exception.ExternalServiceException
 import com.smartpacking.shared.dto.PackingRequest
 import com.smartpacking.shared.dto.PackingResponse
@@ -29,7 +30,8 @@ interface AiWorkerClient {
 class RealAiWorkerClient(
     @Value("\${ai.worker.url:http://localhost:8081}")
     private val aiWorkerUrl: String,
-    private val restTemplate: RestTemplate
+    private val restTemplate: RestTemplate,
+    private val objectMapper: ObjectMapper
 ) : AiWorkerClient {
 
     private val logger = LoggerFactory.getLogger(RealAiWorkerClient::class.java)
@@ -58,17 +60,19 @@ class RealAiWorkerClient(
                 e
             )
         } catch (e: org.springframework.web.client.HttpClientErrorException) {
-            logger.error("✗ AI Worker returned client error (${e.statusCode}): ${e.message}")
+            val errorMessage = extractErrorMessage(e)
+            logger.error("✗ AI Worker returned client error (${e.statusCode}): $errorMessage")
             throw ExternalServiceException(
                 "AI Worker",
-                "AI Worker rejected request: ${e.statusText}",
+                errorMessage,
                 e
             )
         } catch (e: org.springframework.web.client.HttpServerErrorException) {
-            logger.error("✗ AI Worker returned server error (${e.statusCode}): ${e.message}")
+            val errorMessage = extractErrorMessage(e)
+            logger.error("✗ AI Worker returned server error (${e.statusCode}): $errorMessage")
             throw ExternalServiceException(
                 "AI Worker",
-                "AI Worker encountered an error: ${e.statusText}",
+                errorMessage,
                 e
             )
         } catch (e: ExternalServiceException) {
@@ -81,6 +85,30 @@ class RealAiWorkerClient(
                 "Unexpected error communicating with AI Worker: ${e.message}",
                 e
             )
+        }
+    }
+
+    /**
+     * Extract the actual error message from AI Worker error response.
+     *
+     * Parses the JSON error response to get the detailed message instead of just the HTTP status text.
+     * Falls back to status text if parsing fails.
+     */
+    private fun extractErrorMessage(e: org.springframework.web.client.HttpStatusCodeException): String {
+        return try {
+            val responseBody = e.responseBodyAsString
+            if (responseBody.isNotBlank()) {
+                val errorNode = objectMapper.readTree(responseBody)
+                val message = errorNode.get("message")?.asText()
+
+                // Return the detailed message from AI Worker, or fall back to status text
+                message ?: e.statusText
+            } else {
+                e.statusText
+            }
+        } catch (parseError: Exception) {
+            logger.warn("Could not parse error response: ${parseError.message}")
+            e.statusText
         }
     }
 

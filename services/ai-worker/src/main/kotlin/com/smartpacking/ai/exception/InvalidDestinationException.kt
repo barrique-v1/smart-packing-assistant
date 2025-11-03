@@ -23,8 +23,7 @@ class InvalidDestinationException(
          */
         private fun buildMessage(destination: String): String {
             return "Invalid destination: '$destination'. " +
-                "Please choose from our supported destinations. " +
-                "Use GET /api/ai/destinations to see the full list."
+                "Please enter a valid country or city."
         }
     }
 }
