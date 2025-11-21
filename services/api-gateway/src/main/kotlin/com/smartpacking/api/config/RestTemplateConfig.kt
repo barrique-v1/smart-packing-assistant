@@ -17,7 +17,7 @@ class RestTemplateConfig {
     fun restTemplate(builder: RestTemplateBuilder): RestTemplate {
         return builder
             .connectTimeout(Duration.ofSeconds(10))
-            .readTimeout(Duration.ofSeconds(30))
+            .readTimeout(Duration.ofSeconds(90))
             .build()
     }
 }
