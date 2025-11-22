@@ -41,6 +41,21 @@ export default function PackingList({ packingList }: PackingListProps) {
         <h2>Packing List for {packingList.destination}</h2>
       </div>
 
+      {/* Weather Info */}
+      {packingList.weatherInfo && (
+        <div className="info-section weather-info">
+          <h3>🌤️ Weather Information</h3>
+          <div className="weather-details">
+            <p>
+              <strong>Temperature Range:</strong> {packingList.weatherInfo.tempMin}°C - {packingList.weatherInfo.tempMax}°C
+            </p>
+            <p>
+              <strong>Conditions:</strong> {packingList.weatherInfo.conditions}
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* Culture Tips */}
       {packingList.cultureTips && packingList.cultureTips.length > 0 && (
         <div className="info-section culture-tips">

@@ -243,7 +243,32 @@
   color: #4b5563;
 }
 
+/* Weather Info Styling */
+.weather-info {
+  border-left-color: #3b82f6;
+}
+
+.weather-details {
+  margin-top: 0.75rem;
+}
+
+.weather-details p {
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  background: white;
+  border-radius: 6px;
+  color: #374151;
+}
+
+.weather-details strong {
+  color: #1f2937;
+  margin-right: 0.5rem;
+}
+
 /* Culture Tips Styling */
+.culture-tips {
+  border-left-color: #10b981;
+}
 .culture-tips-list {
   margin: 0.5rem 0 0 0;
   padding: 0;

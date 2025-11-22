@@ -5,14 +5,14 @@
 ## 1. Executive Summary – Kurze Zusammenfassung des Projekts
 
 Smart Packing Assistant ist eine intelligente Microservices-Anwendung, die Reisenden beim Packen hilft.
-Das System generiert personalisierte Packlisten basierend auf Reiseziel, Dauer, Jahreszeit und Reiseart wie
-Business, Urlaub oder Backpacking. Durch KI-gestützte Analysen mit OpenAI GPT-4 und einer kuratierten
-Wissensbasis von 140 Expert-verifizierten Items erhalten Nutzer:innen individuell angepasste Packlisten.
-Die Anwendung nutzt moderne Cloud-Technologien wie Docker und Kubernetes sowie eine Microservices-Architektur
+Die Application generiert personalisierte Packlisten basierend auf Reiseziel, Dauer, Jahreszeit und verschiedene
+Reisearten wie Geschäftsreisen, Urlaub oder Backpacking. Durch KI-gestützte Analysen mit OpenAI GPT-4 und einer 
+Wissensbasis von 140 validierten Gegenständen erhalten Nutzer:innen individuell angepasste Packlisten.
+Die Anwendung nutzt moderne Technologien wie Docker und Kubernetes sowie eine Microservices-Architektur
 mit React-Frontend, Spring Boot-Backend, PostgreSQL-Datenbank und Qdrant Vector Database. Das Projekt
-demonstriert den praktischen Einsatz von Retrieval-Augmented Generation zur Lösung eines alltäglichen Problems
+demonstriert den praktischen Einsatz von wissensbasierter KI-Generierung zur Lösung eines alltäglichen Problems
 und kombiniert AI-Integration, Container-Orchestrierung und sichere Session-Verwaltung. Die Lösung ist
-vollständig lokal deploybar und produktionsreif skalierbar.
+vollständig lokal deployable und demonstriert production-ready Architektur-Patterns.
 
 ## 2. Ziele des Projekts – Welche Ziele verfolgt Ihr Projekt, welches Problem wird gelöst?
 
@@ -20,49 +20,46 @@ Das Hauptziel ist die Entwicklung eines KI-gestützten Assistenten, der das Prob
 unvollständiger Reisevorbereitungen löst. Viele Reisende vergessen wichtige Gegenstände oder packen
 unnötige Dinge ein, was zu Stress, Unannehmlichkeiten und zusätzlichen Kosten am Zielort führt. Der
 Smart Packing Assistant löst dieses Problem durch die Bereitstellung personalisierter, kontextbewusster
-Packlisten, die Destination, Wetterbedingungen, kulturelle Besonderheiten und geplante Aktivitäten
-berücksichtigen. Durch die Kombination von Expert-Wissen aus einer kuratierten Wissensbasis mit der
-Kreativität generativer KI erreicht das System eine hohe Zuverlässigkeit bei gleichzeitiger Flexibilität
-für individuelle Reiseszenarien. Das Projekt zielt darauf ab, Reisenden Zeit zu sparen, Stress zu
-reduzieren und eine bessere Vorbereitung für ihre Reisen zu ermöglichen.
+Packlisten, die Destination, Wetterbedingungen, kulturelle Besonderheiten und Reiseart
+(Business/Urlaub/Backpacking) berücksichtigen. Durch die Kombination von 140 validierten Items mit der Kreativität 
+generativer KI erreicht das System eine hohe Zuverlässigkeit bei gleichzeitiger Flexibilität für individuelle 
+Reiseszenarien. Das Projekt zielt darauf ab, Reisenden Zeit zu sparen, Stress zu reduzieren und eine bessere 
+Vorbereitung für ihre Reisen zu ermöglichen.
 
 ## 3. Anwendung und Nutzung – Wie wird die Lösung verwendet, wer sind die Hauptnutzer:innen?
 
 Die Lösung richtet sich an drei Hauptnutzergruppen mit unterschiedlichen Reisebedürfnissen. Geschäftsreisende
-benötigen formelle Kleidung und Arbeitsausrüstung wie Laptops und Präsentationsmaterialien, während Urlauber
-Ausrüstung für Entspannung, Sightseeing oder sportliche Aktivitäten planen. Backpacker legen Wert auf
+benötigen formelle Kleidung und arbeitsrelevante Dinge wie Laptops und Präsentationsmaterialien, während Urlauber
+Dinge für Entspannung, Sightseeing oder sportliche Aktivitäten planen. Backpacker legen Wert auf
 leichtes, vielseitiges Equipment für Abenteuerreisen mit speziellen Anforderungen an Gewicht und
 Funktionalität. Die Nutzung erfolgt über eine intuitive Weboberfläche, bei der Nutzer Reiseziel, Reisedauer
 in Tagen, Jahreszeit und Reiseart eingeben. Der Smart Packing Assistant generiert daraufhin innerhalb weniger
-Sekunden eine kategorisierte Packliste mit Begründungen für jeden Gegenstand, ergänzt durch Wetterinformationen
-und kulturelle Tipps für das jeweilige Zielland.
-
-**Code-Repository:** https://github.com/barrique-v1/smart-packing-assistant
-**Pitch:** [pitch.mp3](./pitch.mp3) (Audio, 1 - 3 Min)
+Sekunden eine kategorisierte Packliste mit Empfehlungen für Kleidung, Elektronik, Hygieneartikel und sonstige
+Gegenstände.
 
 ## 4. Entwicklungsstand – Idee, Proof of Concept, Prototyp oder Einsatzbereit?
 
 Das Projekt ist ein fertiger funktionsfähiger Prototyp mit vollständig implementierten Kernfunktionen.
 Alle wesentlichen Features sind getestet und einsatzbereit, darunter AI-Integration mit OpenAI GPT-4,
 RAG-basierte semantische Suche mit Qdrant Vector Database, PostgreSQL-Persistenz für Sessions und Packlisten,
-Session-Management mit sicheren Tokens sowie vollständige Docker-Containerisierung und Kubernetes-Deployment.
-Die Anwendung läuft stabil in drei Deployment-Szenarien für Entwicklung, Integration-Tests und produktionsnahe
-Umgebungen mit umfassenden Health Checks, strukturierter Fehlerbehandlung und Input-Validierung. Für echte
+sowie vollständige Docker-Containerisierung und Kubernetes-Deployment.
+Die Anwendung läuft stabil für lokale Entwicklung, Docker-basiertes Deployment sowie lokales Kubernetes 
+mit Health Checks, strukturierter Fehlerbehandlung und Input-Validierung. Für echte
 Produktionsumgebungen fehlen unter anderem noch HTTPS/TLS-Verschlüsselung, robuste Authentifizierung über Session-Tokens
 hinaus und Rate Limiting gegen DoS-Angriffe, jedoch ermöglicht der aktuelle Stand bereits den sofortigen
 praktischen Einsatz in kontrollierten Umgebungen.
 
 ## 5. Projektdetails – Welche Kernfunktionen oder Besonderheiten bietet Ihr Projekt?
 
-Das Projekt kombiniert mehrere innovative Technologien zu einem kohärenten System. Die Hybrid-AI-Generierung
+Das Projekt kombiniert mehrere innovative Technologien in einem System. Die Hybrid-AI-Generierung
 vereint Retrieval-Augmented Generation mit direkter LLM-Generierung durch semantische Suche in einer kuratierten
 Wissensbasis von 140 Expert-Items via Qdrant Vector Database, ergänzt durch GPT-4 für
 kontextspezifische Anpassungen. Kontextbewusste Empfehlungen werden durch dynamische Prompt-Anreicherung mit
 Wetterdaten, kulturellen Tipps und den Top-20 relevantesten Items mit Similarity-Score ab 0.4 erreicht. Das
 Session-Management nutzt sichere 32-Byte Base64-Tokens mit automatischer Expiry nach 24 Stunden sowie
 Session-Historie. Die Microservices-Architektur trennt klar zwischen React-Frontend auf Port 5173, API Gateway
-auf Port 8080, stateless AI Worker auf Port 8081 und PostgreSQL-Datenbank mit Anti-Hallucination-Mechanismen
-durch Destination-Validierung. DevOps-Excellence zeigt sich in Multi-Stage Docker Builds und umfassenden Health Checks.
+auf Port 8080, stateless AI Worker auf Port 8081 mit Anti-Hallucination-Mechanismen
+durch Destination-Validierung und PostgreSQL-Datenbank. 
 
 ## 6. Innovation – Was ist neu und besonders innovativ?
 
@@ -124,3 +121,5 @@ Virtual Packing, Social-Sharing von bewährten Packlisten sowie Nachhaltigkeits-
 Empfehlungen für Leihservices statt Neukauf ermöglichen. Enterprise-Anwendungen für Firmenreisen würden
 Compliance-Checks für Visumanforderungen, Gesundheitszertifikate und automatisierte Kostenabrechnung bieten,
 während das System vollständig auf Edge-AI für Offline-Funktionalität migriert als Open-Source-Projekt entwickelt wird.
+
+**Pitch:** [pitch.mp3](./pitch.mp3) (Audio, 1 - 3 Min)
