@@ -48,7 +48,7 @@ RAG-basierte semantische Suche mit Qdrant Vector Database, PostgreSQL-Persistenz
 Session-Management mit sicheren Tokens sowie vollständige Docker-Containerisierung und Kubernetes-Deployment.
 Die Anwendung läuft stabil in drei Deployment-Szenarien für Entwicklung, Integration-Tests und produktionsnahe
 Umgebungen mit umfassenden Health Checks, strukturierter Fehlerbehandlung und Input-Validierung. Für echte
-Produktionsumgebungen fehlen noch HTTPS/TLS-Verschlüsselung, robuste Authentifizierung über Session-Tokens
+Produktionsumgebungen fehlen unter anderem noch HTTPS/TLS-Verschlüsselung, robuste Authentifizierung über Session-Tokens
 hinaus und Rate Limiting gegen DoS-Angriffe, jedoch ermöglicht der aktuelle Stand bereits den sofortigen
 praktischen Einsatz in kontrollierten Umgebungen.
 
@@ -56,7 +56,7 @@ praktischen Einsatz in kontrollierten Umgebungen.
 
 Das Projekt kombiniert mehrere innovative Technologien zu einem kohärenten System. Die Hybrid-AI-Generierung
 vereint Retrieval-Augmented Generation mit direkter LLM-Generierung durch semantische Suche in einer kuratierten
-Wissensbasis von 140 Expert-Items via Qdrant Vector Database auf Port 6333, ergänzt durch GPT-4 für
+Wissensbasis von 140 Expert-Items via Qdrant Vector Database, ergänzt durch GPT-4 für
 kontextspezifische Anpassungen. Kontextbewusste Empfehlungen werden durch dynamische Prompt-Anreicherung mit
 Wetterdaten, kulturellen Tipps und den Top-20 relevantesten Items mit Similarity-Score ab 0.4 erreicht. Das
 Session-Management nutzt sichere 32-Byte Base64-Tokens mit automatischer Expiry nach 24 Stunden sowie
