@@ -110,7 +110,13 @@ Spracheingabe für hands-free Interaktion sowie personalisierte Lernalgorithmen 
 über mehrere Reisen hinweg integrieren. Ökosystem-Integration könnte nahtlose Einbindung in Reise-Apps wie
 Booking.com, Kooperationen mit Fluglinien für Gepäck-Optimierung sowie Smart-Home-Integration für automatische
 Erinnerungen umfassen. Erweiterte Features würden Echtzeit-Wetterupdates, Social-Sharing von bewährten Packlisten sowie 
-Nachhaltigkeits-Tracking mit CO2-Scores und Empfehlungen für Leihservices statt Neukauf ermöglichen. 
+Nachhaltigkeit-Tracking mit Co2-Scores und Empfehlungen für Leihservices statt Neukauf ermöglichen. 
 Enterprise-Anwendungen für Firmenreisen könnten Compliance-Checks für Visumanforderungen, Gesundheitszertifikate und 
 automatisierte Kostenabrechnung bieten. Das System soll vollständig als Open-Source-Projekt entwickelt werden.
 
+### Dummy Data & Supported Destinations
+- [culture_tips.json](services/ai-worker/src/main/resources/data/culture_tips.json)
+- [weather_data.json](services/ai-worker/src/main/resources/data/weather_data.json)
+- [application.properties](services/ai-worker/src/main/resources/application.properties)
+
+Es existieren Dummy-Daten für 3 Reiseziele, dementsprechend sind zurzeit nur für diese Wetter- und Kultur-Tipps verfügbar.
