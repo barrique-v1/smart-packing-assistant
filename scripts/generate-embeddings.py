@@ -9,7 +9,7 @@ This script:
 4. Saves to JSON file for import
 
 Usage:
-    export OPENAI_API_KEY=sk-your-key-here
+    # Ensure .env file exists with OPENAI_API_KEY
     python3 scripts/generate-embeddings.py
 """
 
@@ -18,10 +18,28 @@ import json
 import os
 import sys
 import uuid
+from pathlib import Path
 from typing import List, Dict, Any
 from openai import OpenAI
 from tqdm import tqdm
 import time
+
+# Load environment variables from .env file
+def load_env_file():
+    """Load environment variables from .env file if it exists."""
+    env_path = Path('.env')
+    if env_path.exists():
+        with open(env_path, 'r') as f:
+            for line in f:
+                line = line.strip()
+                # Skip comments and empty lines
+                if line and not line.startswith('#') and '=' in line:
+                    key, value = line.split('=', 1)
+                    # Only set if not already in environment
+                    if key.strip() not in os.environ:
+                        os.environ[key.strip()] = value.strip()
+        return True
+    return False
 
 # Configuration
 CSV_FILE = "data/packing-knowledge.csv"
@@ -220,11 +238,23 @@ def main():
     print("  Smart Packing Assistant - Embedding Generation")
     print("=" * 70)
 
+    # Load from .env file if it exists
+    env_loaded = load_env_file()
+    if env_loaded:
+        print("✅ Loaded environment variables from .env file")
+
     # Check for API key
     api_key = os.getenv('OPENAI_API_KEY')
     if not api_key:
-        print("\n❌ Error: OPENAI_API_KEY environment variable not set")
-        print("   Please set it with: export OPENAI_API_KEY=sk-your-key-here")
+        print("\n❌ Error: OPENAI_API_KEY not found")
+        print("   Please ensure .env file exists with:")
+        print("   OPENAI_API_KEY=sk-your-actual-key")
+        sys.exit(1)
+
+    # Validate API key format
+    if api_key == 'sk-your-actual-openai-api-key-here' or not api_key.startswith('sk-'):
+        print("\n❌ Error: Invalid OPENAI_API_KEY in .env file")
+        print("   Please replace with your actual OpenAI API key")
         sys.exit(1)
 
     print(f"✅ OpenAI API key found (starts with '{api_key[:10]}...')")
@@ -244,10 +274,6 @@ def main():
     print("\n" + "=" * 70)
     print("✅ Embedding generation complete!")
     print("=" * 70)
-    print(f"\nNext steps:")
-    print(f"1. Review the generated file: {OUTPUT_FILE}")
-    print(f"2. Import to Qdrant using: python3 scripts/import-to-qdrant.py")
-    print()
 
 if __name__ == "__main__":
     try:

@@ -290,14 +290,6 @@ def main():
 
     print("\n" + "=" * 70)
     print("✅ Import complete!")
-    print("=" * 70)
-    print(f"\nCollection '{COLLECTION_NAME}' is ready for use.")
-    print(f"Total vectors: {len(points)}")
-    print(f"\nYou can now test the AI Worker with real vector search:")
-    print(f"  curl -X POST http://localhost:8081/api/ai/generate \\")
-    print(f"    -H 'Content-Type: application/json' \\")
-    print(f"    -d '{{\"destination\":\"Paris\",\"durationDays\":5,\"season\":\"SUMMER\",\"travelType\":\"VACATION\"}}'")
-    print()
 
 if __name__ == "__main__":
     try:
