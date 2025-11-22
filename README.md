@@ -51,15 +51,12 @@ praktischen Einsatz in kontrollierten Umgebungen.
 
 ## 5. Projektdetails – Welche Kernfunktionen oder Besonderheiten bietet Ihr Projekt?
 
-Das Projekt kombiniert mehrere innovative Technologien in einem System. Die Hybrid-AI-Generierung
-vereint Retrieval-Augmented Generation mit direkter LLM-Generierung durch semantische Suche in einer kuratierten
-Wissensbasis von 140 Expert-Items via Qdrant Vector Database, ergänzt durch GPT-4 für
-kontextspezifische Anpassungen. Kontextbewusste Empfehlungen werden durch dynamische Prompt-Anreicherung mit
-Wetterdaten, kulturellen Tipps und den Top-20 relevantesten Items mit Similarity-Score ab 0.4 erreicht. Das
-Session-Management nutzt sichere 32-Byte Base64-Tokens mit automatischer Expiry nach 24 Stunden sowie
-Session-Historie. Die Microservices-Architektur trennt klar zwischen React-Frontend auf Port 5173, API Gateway
-auf Port 8080, stateless AI Worker auf Port 8081 mit Anti-Hallucination-Mechanismen
-durch Destination-Validierung und PostgreSQL-Datenbank. 
+Das Projekt kombiniert mehrere innovative Technologien. Die Kernfunktion basiert auf Retrieval-Augmented Generation: 
+Eine Qdrant Vector Database mit 140 validierten Items trifft auf GPT-4 für kontextspezifische Anpassung. 
+Semantische Suche liefert die relevantesten Items, ergänzt durch Wetterdaten und kulturelle Hinweise.
+Anti-Hallucination-Mechanismen garantieren Verlässlichkeit durch Destination-Validierung und Similarity-Score-Filterung 
+ab 0.4. Das Session-Management nutzt sichere 32-Byte Tokens mit 24-Stunden Expiry. Die Microservices-Architektur trennt 
+Frontend (Port 5173), API Gateway mit PostgreSQL (Port 8080) und stateless AI Worker (Port 8081) klar voneinander.
 
 ## 6. Innovation – Was ist neu und besonders innovativ?
 
