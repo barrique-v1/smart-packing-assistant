@@ -38,6 +38,7 @@ Sekunden eine kategorisierte Packliste mit Empfehlungen für Kleidung, Elektroni
 Gegenstände.
 
 **Code-Repository:** https://github.com/barrique-v1/smart-packing-assistant
+
 **Pitch:** [Pitch.mp3](./Pitch.mp3) (Audio, 1 - 3 Min)
 
 ## 4. Entwicklungsstand – Idee, Proof of Concept, Prototyp oder Einsatzbereit?
@@ -99,7 +100,7 @@ Ethik und Transparenz werden auf mehreren Ebenen sichergestellt. Der Datenschutz
 Design ohne Speicherung personenbezogener Daten gewährleistet, wobei Sessions automatisch nach 24 Stunden
 verfallen. Fairness wird durch kulturell neutrale Wissensbasis gewährleistet mit Tipps für diverse 
 Reiseziele ohne Vorurteile. Die Sicherheit basiert auf Input-Validierung mittels Jakarta Bean Validation, 
-SQL-Injection-Prevention durch JPA-Parameterized-Queries, Error Handling ohne Information Leakage sowie sicheren 
+SQL-Injection-Prevention durch JPA-Parameterized-Queries, Error Handling sowie sicheren 
 32-Byte Session-Tokens. Inklusion wird durch API-First-Design für Accessibility-Tools ermöglicht.
 
 ## 10. Zukunftsvision – Wie könnte das Projekt in 5-10 Jahren aussehen?
@@ -114,9 +115,18 @@ Nachhaltigkeit-Tracking mit Co2-Scores und Empfehlungen für Leihservices statt 
 Enterprise-Anwendungen für Firmenreisen könnten Compliance-Checks für Visumanforderungen, Gesundheitszertifikate und 
 automatisierte Kostenabrechnung bieten. Das System soll vollständig als Open-Source-Projekt entwickelt werden.
 
-### Dummy Data & Supported Destinations
+## Wichtige Dateien und Datenquellen
+
+#### Dummy Data & Supported Destinations
 - [culture_tips.json](services/ai-worker/src/main/resources/data/culture_tips.json)
 - [weather_data.json](services/ai-worker/src/main/resources/data/weather_data.json)
+
+
+  Es existieren Dummy-Daten für 3 Reiseziele, dementsprechend sind zurzeit nur für diese Wetter- und Kultur-Tipps verfügbar.
+
+#### Unterstützte Reiseziele sind in der Datei `application.properties` konfiguriert:
 - [application.properties](services/ai-worker/src/main/resources/application.properties)
 
-Es existieren Dummy-Daten für 3 Reiseziele, dementsprechend sind zurzeit nur für diese Wetter- und Kultur-Tipps verfügbar.
+#### RAG Knowledge Base mit 140 Pack-Items:
+- [packing-knowledge.csv](data/packing-knowledge.csv)
+
