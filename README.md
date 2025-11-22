@@ -38,7 +38,7 @@ Sekunden eine kategorisierte Packliste mit Empfehlungen für Kleidung, Elektroni
 Gegenstände.
 
 **Code-Repository:** https://github.com/barrique-v1/smart-packing-assistant
-**Pitch:** [pitch.mp3](./pitch.mp3) (Audio, 1 - 3 Min)
+**Pitch:** [Pitch.mp3](./Pitch.mp3) (Audio, 1 - 3 Min)
 
 ## 4. Entwicklungsstand – Idee, Proof of Concept, Prototyp oder Einsatzbereit?
 
