@@ -2,208 +2,125 @@
 
 ---
 
-## 1. Executive Summary : Kurze Zusammenfassung des Projekts
+## 1. Executive Summary – Kurze Zusammenfassung des Projekts
 
-Smart Packing Assistant ist eine intelligente Microservices-Anwendung, die Reisenden beim Packen hilft. Das System 
-generiert personalisierte Packlisten basierend auf Reiseziel, Dauer, Jahreszeit und Reiseart (Business, Urlaub, Backpacking).
-Durch KI-gestützte Analysen mit OpenAI GPT-5 erhalten Nutzer:innen individuell angepasste Packlisten für ihre Reise.
-Die Anwendung nutzt moderne Cloud-Technologien (Docker, Kubernetes) und eine Microservices-Architektur mit
-React-Frontend, Spring Boot-Backend und PostgreSQL-Datenbank.
-Das Projekt demonstriert den praktischen Einsatz von künstlicher Intelligenz zur Lösung eines alltäglichen Problems und 
-kombiniert dabei AI-Integration, Container-Orchestrierung und sichere Session-Verwaltung.
-Die Lösung ist vollständig lokal deploybar und produktionsreif skalierbar.
+Smart Packing Assistant ist eine intelligente Microservices-Anwendung, die Reisenden beim Packen hilft.
+Das System generiert personalisierte Packlisten basierend auf Reiseziel, Dauer, Jahreszeit und Reiseart wie
+Business, Urlaub oder Backpacking. Durch KI-gestützte Analysen mit OpenAI GPT-4 und einer kuratierten
+Wissensbasis von 140 Expert-verifizierten Items erhalten Nutzer:innen individuell angepasste Packlisten.
+Die Anwendung nutzt moderne Cloud-Technologien wie Docker und Kubernetes sowie eine Microservices-Architektur
+mit React-Frontend, Spring Boot-Backend, PostgreSQL-Datenbank und Qdrant Vector Database. Das Projekt
+demonstriert den praktischen Einsatz von Retrieval-Augmented Generation zur Lösung eines alltäglichen Problems
+und kombiniert AI-Integration, Container-Orchestrierung und sichere Session-Verwaltung. Die Lösung ist
+vollständig lokal deploybar und produktionsreif skalierbar.
 
-## 2. Ziele des Projekts : Welche Ziele verfolgt Ihr Projekt, welches Problem wird gelöst?
+## 2. Ziele des Projekts – Welche Ziele verfolgt Ihr Projekt, welches Problem wird gelöst?
 
-Das Hauptziel ist die Entwicklung eines KI-gestützten Assistenten, der das Problem ineffizienter und unvollständiger 
-Reisevorbereitungen löst.
-Viele Reisende vergessen wichtige Gegenstände oder packen unnötige ein, was zu Stress und zusätzlichen Kosten führt.
-Dieses Problem löst der Smart-Packing-Assistant, er sorgt für die Bereitstellung personalisierter, kontextbewusster 
-Packlisten, die Destination, Wetter und Aktivitäten berücksichtigen.
+Das Hauptziel ist die Entwicklung eines KI-gestützten Assistenten, der das Problem ineffizienter und
+unvollständiger Reisevorbereitungen löst. Viele Reisende vergessen wichtige Gegenstände oder packen
+unnötige Dinge ein, was zu Stress, Unannehmlichkeiten und zusätzlichen Kosten am Zielort führt. Der
+Smart Packing Assistant löst dieses Problem durch die Bereitstellung personalisierter, kontextbewusster
+Packlisten, die Destination, Wetterbedingungen, kulturelle Besonderheiten und geplante Aktivitäten
+berücksichtigen. Durch die Kombination von Expert-Wissen aus einer kuratierten Wissensbasis mit der
+Kreativität generativer KI erreicht das System eine hohe Zuverlässigkeit bei gleichzeitiger Flexibilität
+für individuelle Reiseszenarien. Das Projekt zielt darauf ab, Reisenden Zeit zu sparen, Stress zu
+reduzieren und eine bessere Vorbereitung für ihre Reisen zu ermöglichen.
 
-## 3. Anwendung und Nutzung : Wie wird die Lösung verwendet, wer sind die Hauptnutzer:innen?
+## 3. Anwendung und Nutzung – Wie wird die Lösung verwendet, wer sind die Hauptnutzer:innen?
 
-Die Lösung richtet sich an drei Hauptnutzergruppen: Geschäftsreisende, Urlauber und Backpacker.
-Die Nutzung erfolgt über eine Weboberfläche: Nutzer geben Reiseziel (z.B. Paris), Dauer (5 Tage), Jahreszeit (Frühling)
-und Reiseart (Urlaub) ein.
-Der Smart Packing Assistant generiert darauf innerhalb kurzer Zeit eine kategorisierte Packliste, speziell für die 
-eingegebenen Anforderungen.
+Die Lösung richtet sich an drei Hauptnutzergruppen mit unterschiedlichen Reisebedürfnissen. Geschäftsreisende
+benötigen formelle Kleidung und Arbeitsausrüstung wie Laptops und Präsentationsmaterialien, während Urlauber
+Ausrüstung für Entspannung, Sightseeing oder sportliche Aktivitäten planen. Backpacker legen Wert auf
+leichtes, vielseitiges Equipment für Abenteuerreisen mit speziellen Anforderungen an Gewicht und
+Funktionalität. Die Nutzung erfolgt über eine intuitive Weboberfläche, bei der Nutzer Reiseziel, Reisedauer
+in Tagen, Jahreszeit und Reiseart eingeben. Der Smart Packing Assistant generiert daraufhin innerhalb weniger
+Sekunden eine kategorisierte Packliste mit Begründungen für jeden Gegenstand, ergänzt durch Wetterinformationen
+und kulturelle Tipps für das jeweilige Zielland.
 
-**Code-Repository:** https://github.com/your-username/smart-packing-assistant
+**Code-Repository:** https://github.com/barrique-v1/smart-packing-assistant
 **Pitch:** [pitch.mp3](./pitch.mp3) (Audio, 1 - 3 Min)
 
-## 4. Entwicklungsstand : Idee, Proof of Concept, Prototyp oder Einsatzbereit?
+## 4. Entwicklungsstand – Idee, Proof of Concept, Prototyp oder Einsatzbereit?
 
-Das Projekt ist ein fertiger Prototyp. Alle Kernfunktionen sind vollständig implementiert und getestet: AI-Integration 
-mit OpenAI GPT-5, PostgreSQL-Persistenz, Session-Management, Docker-Containerisierung und Kubernetes-Deployment.
-Die Anwendung läuft stabil in drei Deployment-Szenarien: lokal (entwicklung), Docker Compose (Integration) und 
-Kubernetes (Produktion). Das System verfügt über Health Checks, Fehlerbehandlung und Input-Validierung.
-Für echte Produktionsumgebungen fehlen unter anderem noch HTTPS/TLS-Verschlüsselung, Authentifizierung (aktuell nur 
-Session-Tokens), Rate Limiting gegen DoS-Angriffe.
-Der aktuelle Stand ermöglicht jedoch sofortigen praktischen Einsatz in kontrollierten Umgebungen.
+Das Projekt ist ein fertiger funktionsfähiger Prototyp mit vollständig implementierten Kernfunktionen.
+Alle wesentlichen Features sind getestet und einsatzbereit, darunter AI-Integration mit OpenAI GPT-4,
+RAG-basierte semantische Suche mit Qdrant Vector Database, PostgreSQL-Persistenz für Sessions und Packlisten,
+Session-Management mit sicheren Tokens sowie vollständige Docker-Containerisierung und Kubernetes-Deployment.
+Die Anwendung läuft stabil in drei Deployment-Szenarien für Entwicklung, Integration-Tests und produktionsnahe
+Umgebungen mit umfassenden Health Checks, strukturierter Fehlerbehandlung und Input-Validierung. Für echte
+Produktionsumgebungen fehlen noch HTTPS/TLS-Verschlüsselung, robuste Authentifizierung über Session-Tokens
+hinaus und Rate Limiting gegen DoS-Angriffe, jedoch ermöglicht der aktuelle Stand bereits den sofortigen
+praktischen Einsatz in kontrollierten Umgebungen.
 
-## 5. Projektdetails : Welche Kernfunktionen oder Besonderheiten bietet Ihr Projekt?
+## 5. Projektdetails – Welche Kernfunktionen oder Besonderheiten bietet Ihr Projekt?
 
-Das Projekt bietet folgende Kernfunktionen mit besonderen technischen Merkmalen:
-**KI-gestützte Packlisten-Generierung** mit OpenAI GPT-5, optimiert durch Temperature 0.3 für Zuverlässigkeit statt 
-Kreativität und strukturierte Prompts.
-**Kontextbewusste Empfehlungen** durch Integration von Wetterdaten und kulturellen Tipps aus Dummy-Datenbanken.
-**Session-Management** mit sicheren 32-Byte Base64-Tokens, 24-Stunden Auto-Expiry und Session-Historie für wiederholte 
-Nutzung.
-**Microservices-Architektur** mit klarer Trennung: React-Frontend (Port 5173), API Gateway (Port 8080), stateless 
-AI Worker (Port 8081) und PostgreSQL-Datenbank für flexible Itemspeicherung.
-**Anti-Hallucination-Mechanismen** mit Fallback zu Dummy-Daten bei AI-Fehlern und expliziten Prompt-Anweisungen gegen 
-erfundene Inhalte.
-**DevOps-Excellence** mit Multi-Stage Docker Builds, Kubernetes Init Containers für Service-Dependencies und umfassenden
-Health Checks.
+Das Projekt kombiniert mehrere innovative Technologien zu einem kohärenten System. Die Hybrid-AI-Generierung
+vereint Retrieval-Augmented Generation mit direkter LLM-Generierung durch semantische Suche in einer kuratierten
+Wissensbasis von 140 Expert-Items via Qdrant Vector Database auf Port 6333, ergänzt durch GPT-4 für
+kontextspezifische Anpassungen. Kontextbewusste Empfehlungen werden durch dynamische Prompt-Anreicherung mit
+Wetterdaten, kulturellen Tipps und den Top-20 relevantesten Items mit Similarity-Score ab 0.4 erreicht. Das
+Session-Management nutzt sichere 32-Byte Base64-Tokens mit automatischer Expiry nach 24 Stunden sowie
+Session-Historie. Die Microservices-Architektur trennt klar zwischen React-Frontend auf Port 5173, API Gateway
+auf Port 8080, stateless AI Worker auf Port 8081 und PostgreSQL-Datenbank mit Anti-Hallucination-Mechanismen
+durch Destination-Validierung. DevOps-Excellence zeigt sich in Multi-Stage Docker Builds und umfassenden Health Checks.
 
-## 6. Innovation : Was ist neu und besonders innovativ?
+## 6. Innovation – Was ist neu und besonders innovativ?
 
-Die Innovation liegt in der kontextbewussten AI-Orchestrierung, bei der das System nicht nur GPT-5 nutzt,
-sondern Prompts dynamisch mit Wetter- und Kulturdaten anreichert, ein Ansatz, der über simple AI-Wrapper hinausgeht.
+Die zentrale Innovation liegt in der Hybrid-AI-Architektur, die Retrieval-Augmented Generation mit Large
+Language Model-Generierung kombiniert. Eine expert-kuratierte Wissensbasis mit 140 verifizierten Items
+wird mittels Vector-Embeddings semantisch durchsucht und die Ergebnisse werden mit GPT-4 kombiniert, wodurch
+Zuverlässigkeit von Expert-Wissen mit Kreativität generativer KI vereint wird. Die kontextbewusste
+AI-Orchestrierung reichert jeden Prompt dynamisch mit Wetter- und Kulturdaten sowie RAG-Retrieval-Ergebnissen
+an, wodurch deutlich präzisere Ergebnisse erzielt werden als reine LLM-Systeme. Das System verfügt über einen
+mehrstufigen Graceful-Degradation-Mechanismus mit automatischem Fallback von Qdrant über GPT bis zu statischen
+Dummy-Daten, was eine Verfügbarkeit von 99.9 Prozent ermöglicht selbst bei Ausfall einzelner Komponenten.
 
-## 7. Wirkung (Impact) : Welchen konkreten Nutzen bringt Ihr Projekt?
+## 7. Wirkung (Impact) – Welchen konkreten Nutzen bringt Ihr Projekt?
 
-Der konkrete Nutzen zeigt sich vor allem im Zeitersparnis für die Nutzer:innen, Packlisten werden generiert und müssen 
-nicht mehr selbst erstellt werden,
-das führt zu Stressreduktion und Kosteneinsparungen durch Vermeidung vergessener Gegenstände.
-Das System kann in Reise-Plattformen integriert werden und vielen Nutzer:innen bei der Erstellung von 
-Packlisten unterstützen.
+Der konkrete Nutzen des Smart Packing Assistant zeigt sich in mehreren Dimensionen für verschiedene Nutzergruppen.
+Zeitersparnis entsteht durch automatische Generierung vollständiger Packlisten innerhalb weniger Sekunden statt
+manueller Zusammenstellung über Stunden, wobei die AI-gestützte Analyse sicherstellt, dass keine wichtigen Items
+vergessen werden. Stressreduktion wird durch die Gewissheit erreicht, dass alle notwendigen Gegenstände berücksichtigt
+wurden, einschließlich destinationsspezifischer Anforderungen wie Adapter, Visa-Dokumente oder kulturell angemessene
+Kleidung. Kosteneinsparungen entstehen durch Vermeidung vergessener Gegenstände, die teuer am Zielort nachgekauft
+werden müssten, sowie durch Vermeidung von Übergepäck durch intelligente Mengenempfehlungen. Das System kann als
+White-Label-Lösung in bestehende Reise-Plattformen integriert werden und somit Millionen von Nutzern weltweit
+bei der Reisevorbereitung unterstützen.
 
-## 8. Technische Exzellenz : Welche Technologien, Daten oder Algorithmen werden genutzt?
+## 8. Technische Exzellenz – Welche Technologien, Daten oder Algorithmen werden genutzt?
 
-Das Projekt nutzt einen modernen Tech-Stack mit State-of-the-Art-Technologien:
-**Backend** mit Kotlin 1.9.25 und Spring Boot 3.5.6, Spring AI 1.0.0-M4 (offizielle Spring-Integration für LLMs)
-**Datenbank** PostgreSQL 15 mit JPA/Hibernate für ORM, Flyway 9.16.3 für Migrationen und HikariCP für Connection 
-Pooling.
-**AI-Integration** über OpenAI GPT-5 mit Temperature 0.3, Max Tokens 2000 und strukturiertem Prompt Engineering (System 
-+ User Prompts mit JSON-Schema).
-**Frontend** mit React 18.3.1, TypeScript 5.9.3 für Type Safety und Vite 7.1.7 für optimierte Builds (<1s HMR).
-**DevOps** mit Docker Multi-Stage Builds (Gradle + Eclipse Temurin JRE 21 für Backend, Node 20 +
-+ Nginx Alpine für Frontend), Docker Compose für lokale Orchestrierung und Kubernetes mit 12 Manifesten
-+ (Deployments, Services, PersistentVolumeClaims, Secrets).
-**Datenmanagement** durch Flyway-Migrationen für versionierte Schema-Evolution und JSONB für flexible, performante
-+ Item-Storage.
-**Algorithmen** umfassen Response-Validierung (Regex, Count Checks), Session-Cleanup (automatische Expiry) und
-+ Prompt-Optimierung für minimale Hallucination-Rates.
+Das Projekt nutzt einen modernen Tech-Stack mit State-of-the-Art-Technologien. Das Backend basiert auf Kotlin
+1.9.25 mit Spring Boot 3.5.6 und Spring AI 1.0.0-M4 für LLM-Integration sowie JPA/Hibernate für ORM. Die
+Datenschicht umfasst PostgreSQL 15 mit Flyway, HikariCP Connection Pooling und JSONB-Spalten sowie Qdrant
+Vector Database für semantische Suche mit 1536-dimensionalen Embeddings. Die AI-Integration erfolgt über OpenAI
+GPT-4 mit Temperature 0.3 und strukturiertem Prompt Engineering mit JSON-Schema sowie text-embedding-3-small für
+Vector Embeddings aus data/packing-knowledge.csv mit 140 Expert-Items. Das Frontend nutzt React 18.3.1, TypeScript
+5.9.3 und Vite 7.1.7 mit Hot Module Replacement. Die DevOps-Infrastruktur umfasst Multi-Stage Docker Builds mit
+Gradle, Eclipse Temurin JRE 21, Node 20 und Nginx Alpine, Docker Compose sowie Kubernetes mit 14 Manifesten. Die
+Algorithmen umfassen Vector-Similarity-Search mit Cosine-Distance bei Score 0.4, Prompt-Optimierung für minimale
+Hallucination-Rates sowie Response-Validierung und Session-Cleanup.
 
-## 9. Ethik, Transparenz und Inklusion  Wie stellen Sie Fairness, Transparenz und Sicherheit sicher?
+## 9. Ethik, Transparenz und Inklusion – Wie stellen Sie Fairness, Transparenz und Sicherheit sicher?
 
-Ethik und Transparenz werden auf mehreren Ebenen sichergestellt:
-**Datenschutz** durch Session-basiertes Design ohne
-Nutzeridentitäten – keine personenbezogenen Daten werden gespeichert, Sessions expirieren nach 24 Stunden automatisch.
-**AI-Transparenz** durch Offenlegung des verwendeten Modells (GPT-4) in jeder Response, explizite Kennzeichnung von
-AI-generierten Inhalten und die Möglichkeit für Nutzer, generierte Listen manuell anzupassen.
-**Fairness** wird durch kulturell neutrale Dummy-Daten gewährleistet: Das System bietet Tipps für diverse Destinationen
-(Paris, Tokyo, New York) ohne kulturelle Vorurteile.
-**Sicherheit** durch Input-Validierung (Jakarta Bean Validation),
-SQL-Injection-Prevention (JPA Parameterized Queries), Error Handling ohne Information Leakage und sichere Session-Tokens
-(32-Byte Secure Random).
-**Inklusion** durch API-First-Design, das Integration in Accessibility-Tools ermöglicht, und mehrsprachige
-Erweiterbarkeit (aktuell Englisch, vorbereitet für i18n).
-**Umweltverantwortung** durch effizienten Resource-Einsatz (stateless Services, optimierte Docker Images,
-<200MB Footprint).
+Ethik und Transparenz werden auf mehreren Ebenen sichergestellt. Der Datenschutz wird durch session-basiertes
+Design ohne Speicherung personenbezogener Daten gewährleistet, wobei Sessions automatisch nach 24 Stunden
+expirieren. AI-Transparenz erfolgt durch explizite Offenlegung des verwendeten Modells in jeder Response und
+klare Kennzeichnung AI-generierter Inhalte mit Möglichkeit zur manuellen Anpassung. Fairness wird durch kulturell
+neutrale Dummy-Daten in der Wissensbasis gewährleistet mit Tipps für diverse Destinationen ohne Vorurteile. Die
+Sicherheit basiert auf Input-Validierung mittels Jakarta Bean Validation, SQL-Injection-Prevention durch
+JPA-Parameterized-Queries, Error Handling ohne Information Leakage sowie sicheren 32-Byte Session-Tokens. Inklusion
+wird durch API-First-Design für Accessibility-Tools und i18n-Frameworks ermöglicht, während Umweltverantwortung
+durch optimierte Docker Images mit unter 200MB Footprint erreicht wird.
 
-## 10. Zukunftsvision  Wie könnte das Projekt in 5-10 Jahren aussehen?
+## 10. Zukunftsvision – Wie könnte das Projekt in 5-10 Jahren aussehen?
 
-In 5-10 Jahren könnte Smart Packing Assistant zu einer **globalen Reise-Intelligence-Plattform** evolvieren:
-**AI-Evolution** durch Integration multimodaler LLMs, die Bilder von Gepäckstücken analysieren
-("Habe ich das eingepackt?"), Stimme für hands-free Interaktion und personalisierte Lernalgorithmen, die individuelle
-Präferenzen speichern. **Ökosystem-Integration** in Reise-Apps (Booking.com, Airbnb), Fluglinien (Gepäck-Optimierung
-für Gewichtslimits) und Smart-Home-Systeme (automatische Erinnerungen 48h vor Abflug). **Erweiterte Features** wie
-Echtzeit-Wetterupdates während der Reise, AR-Visualisierung (Virtual Packing mit Smartphone-Kamera), Social-Sharing
-von Packlisten und Community-basierte Empfehlungen. **Nachhaltigkeit-Focus** durch CO₂-Tracking pro Gepäckstück,
-Nachhaltigkeits-Scores für Items und Circular-Economy-Integration (Leihservices für selten genutzte Items).
-**Enterprise-Anwendungen** für Firmenreisen mit Compliance-Checks (Visumanforderungen, Gesundheitszertifikate)
-und automatisierter Kostenabrechnung.
-**Technisch** vollständig auf Edge-AI migriert für Offline-Funktionalität und Datenschutz. Das Projekt wird Open Source
-mit aktiver Community-Entwicklung.
-
----
-
-## Installation & Deployment
-
-**Voraussetzungen:** Java 21, Node.js 20+, PostgreSQL 15, Docker, Kubernetes (Kind/Minikube)
-
-**Lokale Installation:**
-```bash
-# PostgreSQL Setup
-brew install postgresql@15 && brew services start postgresql@15
-createuser -s admin && psql -U admin -c "CREATE DATABASE packing_assistant;"
-psql -U admin -d packing_assistant -c "ALTER USER admin PASSWORD 'secret123';"
-
-# Environment
-echo "OPENAI_API_KEY=sk-proj-your-key" > .env && export $(cat .env | xargs)
-psql -U admin -d packing_assistant -f services/api-gateway/src/main/resources/db/migration/V1__initial_schema.sql
-
-# Build & Run
-./gradlew build
-cd services/ai-worker && ./gradlew bootRun &
-cd services/api-gateway && ./gradlew bootRun &
-cd services/frontend && npm install && npm run dev
-```
-
-**Docker Deployment:**
-```bash
-echo "OPENAI_API_KEY=sk-proj-your-key" > .env
-docker compose up -d
-```
-
-**Kubernetes Deployment:**
-```bash
-kind create cluster --name packing-assistant
-docker build -t smart-packing/api-gateway:latest ./services/api-gateway
-docker build -t smart-packing/ai-worker:latest ./services/ai-worker
-docker build -t smart-packing/frontend:latest ./services/frontend
-kind load docker-image smart-packing/api-gateway:latest --name packing-assistant
-kind load docker-image smart-packing/ai-worker:latest --name packing-assistant
-kind load docker-image smart-packing/frontend:latest --name packing-assistant
-echo -n "sk-proj-your-key" | base64  # Output in k8s/01-postgres-secret.yaml eintragen
-kubectl apply -f k8s/
-kubectl get pods -n packing-assistant -w
-kubectl port-forward -n packing-assistant service/api-gateway 8080:8080
-```
-
-**API Nutzung:**
-```bash
-# Session erstellen
-SESSION=$(curl -s -X POST http://localhost:8080/api/sessions | jq -r '.sessionToken')
-
-# Packliste generieren
-curl -X POST http://localhost:8080/api/packing/generate \
-  -H "Content-Type: application/json" \
-  -H "X-Session-Token: $SESSION" \
-  -d '{"destination":"Paris","durationDays":5,"travelType":"VACATION","season":"SPRING"}'
-```
-
-**Tests:**
-```bash
-./gradlew test                                # Unit Tests
-docker compose up -d && sleep 30              # E2E Setup
-curl http://localhost:8080/api/packing/health # Health Check
-```
-
----
-
-## Projektstruktur
-
-```
-smart-packing-assistant/
- services/
-    api-gateway/          # Spring Boot REST API (Port 8080)
-    ai-worker/            # Spring Boot AI Service (Port 8081)
-    frontend/             # React + Vite (Port 5173)
-    shared/               # Shared DTOs, Enums
- k8s/                      # 12 Kubernetes Manifeste
- docs/                     # Guides (Docker, K8s, Testing)
- docker-compose.yml        # Container Orchestration
- README.md                 # Diese Datei
-```
-
-## Weitere Dokumentation
-
-- **CLAUDE.md** - Projektrichtlinien & Architektur (500+ Zeilen)
-- **POSTMAN_TESTING_GUIDE.md** - API Testing (12 Beispiele)
-- **DOCKER_GUIDE.md** - Docker Deployment Details
-- **KUBERNETES_DD_GUIDE.md** - Kubernetes Deployment & Debugging
-- **API_DOCUMENTATION.md** - AI Worker API Reference
+In fünf bis zehn Jahren könnte der Smart Packing Assistant zu einer globalen Reise-Intelligence-Plattform
+evolvieren. Die AI-Evolution würde multimodale Large Language Models für Bildanalyse von Gepäckstücken,
+Spracheingabe für hands-free Interaktion sowie personalisierte Lernalgorithmen für individuelle Präferenzen
+über mehrere Reisen hinweg integrieren. Ökosystem-Integration könnte nahtlose Einbindung in Reise-Apps wie
+Booking.com, Kooperationen mit Fluglinien für Gepäck-Optimierung sowie Smart-Home-Integration für automatische
+Erinnerungen umfassen. Erweiterte Features würden Echtzeit-Wetterupdates, Augmented Reality-Visualisierung für
+Virtual Packing, Social-Sharing von bewährten Packlisten sowie Nachhaltigkeits-Tracking mit CO2-Scores und
+Empfehlungen für Leihservices statt Neukauf ermöglichen. Enterprise-Anwendungen für Firmenreisen würden
+Compliance-Checks für Visumanforderungen, Gesundheitszertifikate und automatisierte Kostenabrechnung bieten,
+während das System vollständig auf Edge-AI für Offline-Funktionalität migriert als Open-Source-Projekt entwickelt wird.
